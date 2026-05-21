@@ -11,6 +11,22 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [2.0.0] - 2026-05-20
+
+### Changed (BREAKING)
+
+- **Slug-based identifiers replace sequential numbers**: Features are now identified by a kebab-case slug (`F-user-auth`) instead of a sequence number (`F1`). Tasks use a standalone, globally-unique kebab-case slug (`T-login-api`) instead of a Feature-scoped number (`T1.1`); sub-tasks append one level (`T-login-api.schema`). The previous `F{n}` / `T{f}.{t}` / `T{f}.{t}.{s}` scheme and the "highest + 1" increment rule are removed entirely.
+- **Slug assignment & collision handling**: `/sprint:add-backlog` derives a slug from the Feature/Task name. Feature slugs must be unique within the sprint; Task slugs must be globally unique across the sprint (no Feature prefix). On collision, the skill stops and asks the user for a different name — there is no automatic numbering.
+- **File, branch, and team naming follow the slug**: design `refs/designs/F-{slug}.md`, plan `refs/plans/F-{feature-slug}-{task-id}.md`, active `active/F-{slug}.md`, archive `refs/archive/F-{slug}.md`, lessons `refs/lessons/F-{slug}-lessons.md`, branch `feature/F-{slug}`, Agent Team `feature-F-{slug}`, teammates `worker-{task-id}` / `verifier-{task-id}` / `reviewer-F-{slug}`.
+- **Review & Refactor / merge tasks**: R&R tasks use `T-review-{feature-slug}` (title keeps "Review & Refactor"); worktree merge tasks use `T-merge-{feature-slug}`. `/sprint:work-on-feature` identifies them by title, not by position.
+- **BACKLOG template section renamed**: the "Numbering" section is now "Identifiers".
+
+### Migration
+
+- **No automatic migration.** Existing `F{n}` sprints are left untouched and keep working as-is. The new slug format applies to **newly created sprints only**. Do not bulk-rename existing sprints — mixing schemes within one sprint is unnecessary.
+
+---
+
 ## [1.17.0] - 2026-04-10
 
 ### Changed

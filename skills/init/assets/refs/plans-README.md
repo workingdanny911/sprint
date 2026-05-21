@@ -4,11 +4,11 @@ Execution plans for complex tasks.
 
 ## Naming Convention
 
-`F{n}-T{m}-{task-name}.md`
+`F-{feature-slug}-{task-id}.md`
 
 Examples:
-- `F1-T1-login-api.md`
-- `F2-T3-payment-webhook.md`
+- `F-user-auth-T-login-api.md`
+- `F-payment-T-webhook-handler.md`
 
 ## When to Create
 

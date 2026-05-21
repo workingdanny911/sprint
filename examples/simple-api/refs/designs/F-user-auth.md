@@ -1,4 +1,4 @@
-# F1: User Authentication - Design
+# F-user-auth: User Authentication - Design
 
 ## Overview
 

@@ -78,7 +78,7 @@ Start a session with an agent name and work on Tasks.
 ### 3a. Auto-Execute Feature (Alternative)
 
 ```
-/sprint:work-on-feature F1
+/sprint:work-on-feature F-user-auth
 ```
 
 Automatically executes all Tasks with matched personas, reviews, and verification.
@@ -178,7 +178,7 @@ Start New Session (for next Task)
 
 ### Context Preservation
 
-- `active/F{n}-*.md`: Real-time context for in-progress Features
+- `active/F-{slug}.md`: Real-time context for in-progress Features
 - `refs/decisions/`: Decision records (answer "why?" later)
 - `refs/lessons/`: Lessons learned (prevent repeated mistakes)
 

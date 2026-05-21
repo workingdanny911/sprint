@@ -9,8 +9,8 @@
 
 | Agent | Primary Focus |
 |-------|--------------|
-| #danny | F1: Payment Integration |
-| #agent-1 | F2: Order Management |
+| #danny | F-payment: Payment Integration |
+| #agent-1 | F-order: Order Management |
 
 ---
 
@@ -22,8 +22,8 @@ When you receive `@INSTRUCTION.md #agent-name`:
 2. **Read required files**:
    - `BACKLOG.md` - Find your task
    - `HANDOFF.md` - Current status, **Dependencies**, **Blockers**
-   - `refs/decisions/F{n}-*.md` - Feature decisions
-   - `active/F{n}-*.md` - Feature context
+   - `refs/decisions/F-{slug}-*.md` - Feature decisions
+   - `active/F-{slug}.md` - Feature context
 3. **Check Dependencies** - Is your task blocked?
 4. **Find your task**:
    - Already assigned? Continue it.
@@ -40,38 +40,38 @@ When you receive `@INSTRUCTION.md #agent-name`:
 |------|-------|--------|
 | BACKLOG.md | 자기 Task만 수정 | 읽기만 |
 | HANDOFF.md | 자기 row만 수정 | Dependencies 확인 |
-| active/F1-* | #danny | 읽기만 |
-| active/F2-* | #agent-1 | 읽기만 |
+| active/F-payment | #danny | 읽기만 |
+| active/F-order | #agent-1 | 읽기만 |
 | refs/ | 자기 Feature만 | 읽기만 |
 
 ### Cross-Feature Dependencies
 
-T2.4 (Order Cancel) → T1.3 (Webhook) 의존 관계:
+T-cancel-order (Order Cancel) → T-webhook-handler (Webhook) 의존 관계:
 
 ```
 #agent-1 작업 순서:
-1. T2.1 ✓
-2. T2.2 (현재)
-3. T2.3
-4. T2.4 ← T1.3 완료 대기
+1. T-order-model ✓
+2. T-create-order (현재)
+3. T-get-order
+4. T-cancel-order ← T-webhook-handler 완료 대기
 
 #danny 작업 순서:
-1. T1.1 ✓
-2. T1.2 (현재)
-3. T1.3 ← 완료 시 #agent-1에게 T2.4 unblock
-4. T1.4
+1. T-stripe-sdk ✓
+2. T-payment-intent (현재)
+3. T-webhook-handler ← 완료 시 #agent-1에게 T-cancel-order unblock
+4. T-payment-confirmation
 ```
 
 ### Handoff Protocol
 
 **#danny → #agent-1 handoff 시:**
 
-1. T1.3 완료 후 HANDOFF.md Dependencies 업데이트
+1. T-webhook-handler 완료 후 HANDOFF.md Dependencies 업데이트
    ```markdown
-   | T2.4 | T1.3 | T1.3 done | ✅ Unblocked |
+   | T-cancel-order | T-webhook-handler | T-webhook-handler done | ✅ Unblocked |
    ```
 
-2. `refs/decisions/F1-decisions.md`에 인터페이스 문서화
+2. `refs/decisions/F-payment-decisions.md`에 인터페이스 문서화
    ```markdown
    ## Refund API Interface
    POST /api/payments/refund
@@ -86,8 +86,8 @@ T2.4 (Order Cancel) → T1.3 (Webhook) 의존 관계:
 
 **1 task per agent**
 
-- #danny: F1 Task 1개
-- #agent-1: F2 Task 1개
+- #danny: F-payment Task 1개
+- #agent-1: F-order Task 1개
 
 ### Blocked 상태 처리
 

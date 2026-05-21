@@ -7,7 +7,7 @@
 ## Before You Start (REQUIRED)
 
 - [ ] Check **Up Next** below - Pick highest priority task
-- [ ] Read `active/F{n}-*.md` - Feature context (if exists)
+- [ ] Read `active/F-{slug}.md` - Feature context (if exists)
 - [ ] Check **Dependencies** below - Ensure nothing blocks your task
 
 ---
@@ -31,7 +31,7 @@
 | | | | | |
 
 <!-- Example:
-| F1 | T1.2: Login API | #rook | 2024-01-28 | JWT implementation |
+| F-user-auth | T-login-api: Login API | #rook | 2024-01-28 | JWT implementation |
 -->
 
 ---
@@ -61,8 +61,8 @@
 | | | | |
 
 <!-- Example:
-| F2 | F1 | F1 in_progress | F2 blocked until F1 auth API done |
-| T3.2 | T3.1 | T3.1 done | Can start T3.2 now |
+| F-payment | F-user-auth | F-user-auth in_progress | F-payment blocked until F-user-auth API done |
+| T-webhook-handler | T-checkout-flow | T-checkout-flow done | Can start T-webhook-handler now |
 -->
 
 ---
@@ -81,14 +81,14 @@
 1. Find unclaimed task in BACKLOG.md (no #persona)
 2. Add `#yourname` to task in BACKLOG.md, change status to `in_progress`
 3. Add entry to **In Progress** table above
-4. Create `active/F{n}-name.md` if first task for that feature
+4. Create `active/F-{slug}.md` if first task for that feature
 
 ### Complete a task
 1. Move from **In Progress** to **Recently Done** (or **In Review**)
 2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`, remove `#persona`
    - **No detailed notes** - just checkbox and status change
 3. Update **Up Next**: Add newly unblocked tasks with priority
-4. Update `active/F{n}-name.md` with completion notes (details go here)
+4. Update `active/F-{slug}.md` with completion notes (details go here)
 5. **END SESSION** - Do NOT claim next task automatically
 
 > One session = One task. Start new session with `@INSTRUCTION.md #persona-name` for next task.

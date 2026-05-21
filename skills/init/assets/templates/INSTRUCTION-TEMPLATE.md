@@ -25,10 +25,10 @@ When you receive `@INSTRUCTION.md #agent-name`:
    - User assigned a Task? → Your assignment is that Task
    - Nothing specified? → Claim highest priority Task from backlog
 5. **Read context**:
-   - `refs/designs/F{n}-*.md` - Feature design
-   - `refs/plans/F{n}-T{m}-*.md` - Task plan (if exists)
-   - `active/F{n}-*.md` - Feature working context (contains decisions)
-   - `refs/archive/F{n}-*.md` - Archived context from prior Features (if relevant)
+   - `refs/designs/F-{slug}.md` - Feature design
+   - `refs/plans/F-{feature-slug}-{task-id}.md` - Task plan (if exists)
+   - `active/F-{slug}.md` - Feature working context (contains decisions)
+   - `refs/archive/F-{slug}.md` - Archived context from prior Features (if relevant)
 6. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
    - Feature with independent Tasks → consider [Agent Teams](#agent-teams)
    - Task with independent Sub-tasks → consider [Agent Teams](#agent-teams)
@@ -69,7 +69,7 @@ Re-read in order:
 1. `{sprintRoot}/INSTRUCTION.md` — Restore guidelines + Sprint Root path
 2. `{sprintRoot}/BACKLOG.md` — Find your assignment + worktree path
 3. `{sprintRoot}/HANDOFF.md` — Current status
-4. `{sprintRoot}/active/F{n}-*.md` — Working context + worktree path
+4. `{sprintRoot}/active/F-{slug}.md` — Working context + worktree path
 
 ---
 
@@ -107,7 +107,7 @@ When `@INSTRUCTION.md` is invoked without a `#name`:
    - Then `decision_style` fit (new feature → experimental, refactoring → conservative, bug fix → pragmatist)
    - Then `communication` fit (review → direct, discussion → socratic)
 4. Propose to user:
-   > "이 Task(T1.3: Payment API 설계)에는 #rook(실용주의 백엔드)가 적합합니다. 진행할까요?"
+   > "이 Task(T-payment-api: Payment API 설계)에는 #rook(실용주의 백엔드)가 적합합니다. 진행할까요?"
 5. Wait for user approval before adopting the persona
 
 ### Claiming Tasks (Pull)
@@ -137,7 +137,7 @@ When `@INSTRUCTION.md` is invoked without a `#name`:
 3. Update BACKLOG.md: Keep `[ ]`, status to `review`, remove `#agent`
    - **Minimal only**: Just status change. NO completion notes here.
 4. Update **Up Next** in HANDOFF.md: Add newly unblocked tasks with priority
-5. Update `active/F{n}-*.md` with completion notes (detailed work summary goes here)
+5. Update `active/F-{slug}.md` with completion notes (detailed work summary goes here)
 6. If agent teams were used: **shut down teammates** (see [Agent Teams Lifecycle](#lifecycle))
 7. **Report to user**: Summarize what was done and request review
 8. **END SESSION** - Do NOT automatically claim next work
@@ -157,7 +157,7 @@ When you encounter `review` status tasks — either directly assigned or as part
 
 **Steps:**
 
-1. Read `active/F{n}-*.md`, related plan/design files to understand what was done
+1. Read `active/F-{slug}.md`, related plan/design files to understand what was done
 2. **Explain in detail** to the user what was accomplished in the task
 3. **Request user review** — wait for their decision
 
@@ -174,23 +174,23 @@ When you encounter `review` status tasks — either directly assigned or as part
 
 ### When starting first task of a Feature:
 
-1. Create `active/F{n}-name.md` from template
+1. Create `active/F-{slug}.md` from template
 2. Link to design doc and any task plans
 3. Document initial understanding
 
 ### While working:
 
 1. Update active context with decisions, progress, notes
-2. Keep decisions in `active/F{n}-*.md` during work
+2. Keep decisions in `active/F-{slug}.md` during work
 
 ### When Feature is done:
 
-1. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md` (preserve as-is)
+1. Move `active/F-{slug}.md` → `refs/archive/F-{slug}.md` (preserve as-is)
 2. Add **Lessons Learned** section to the archived file (what worked, what didn't, recommendations)
 3. Review and finalize the **Decisions Made** section in the archived file
 4. Sprint-wide insights only → `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
 5. Remove Feature section from BACKLOG.md, add one-line summary to Done:
-   `F1: Feature Name - completed YYYY-MM-DD`
+   `F-user-auth: User Authentication - completed YYYY-MM-DD`
 
 ---
 
@@ -214,7 +214,7 @@ Keep it concise - tables and short notes only:
 - Detailed coordination notes
 - Long explanations or context
 
-### active/F{n}-*.md (Feature Working Context)
+### active/F-{slug}.md (Feature Working Context)
 
 Record all detailed information here:
 
@@ -222,7 +222,7 @@ Record all detailed information here:
 |-------------|---------|
 | Progress details | "Implemented login, testing refresh token" |
 | Decisions | "Chose JWT over sessions because..." |
-| Coordination | "Need to sync with F2 on order ID format" |
+| Coordination | "Need to sync with F-payment on order ID format" |
 | Handoff notes | "Next: implement rate limiting, see notes below" |
 | Open questions | "Redis vs DB for refresh tokens?" |
 | Files modified | "src/auth/*.ts - added validation" |
@@ -247,7 +247,7 @@ Before ending your session:
 When another agent will continue your work:
 
 1. Complete **Session End** checklist above
-2. In `active/F{n}-*.md`, clearly document:
+2. In `active/F-{slug}.md`, clearly document:
    - What's done
    - What's in progress (current state)
    - What's next
@@ -346,7 +346,7 @@ Lead works on their own sub-item while coordinating teammates.
 - Teammates go **idle after every turn** — this is normal. Send a message to wake them.
 - When teammate reports completion: review their work, update sprint files, assign next sub-item or shut down.
 - **Shutdown**: `SendMessage` with type `shutdown_request` to each teammate before ending session.
-- **Lead merges results**: Verify integration, resolve conflicts, update `active/F{n}-*.md`.
+- **Lead merges results**: Verify integration, resolve conflicts, update `active/F-{slug}.md`.
 
 ### In Plan Files
 
@@ -394,13 +394,13 @@ When context compaction occurs (you notice memory loss or conversation reset):
    - `INSTRUCTION.md` - Restore your guidelines
    - `BACKLOG.md` - Find your assigned work
    - `HANDOFF.md` - Current work status
-   - `active/F{n}-*.md` - Your working context (most important)
+   - `active/F-{slug}.md` - Your working context (most important)
 
    **Worktree mode** (Sprint Root absolute paths — see [Worktree Mode](#worktree-mode)):
    - `{sprintRoot}/INSTRUCTION.md` - Restore guidelines + Sprint Root path
    - `{sprintRoot}/BACKLOG.md` - Find your assignment + worktree path
    - `{sprintRoot}/HANDOFF.md` - Current status
-   - `{sprintRoot}/active/F{n}-*.md` - Working context + worktree path
+   - `{sprintRoot}/active/F-{slug}.md` - Working context + worktree path
 
 2. **Restore your state**:
 
@@ -415,7 +415,7 @@ When context compaction occurs (you notice memory loss or conversation reset):
    - [ ] I read the active context file
    - [ ] I understand where I left off
 
-> **Tip**: Keep `active/F{n}-*.md` updated frequently so recovery is smooth.
+> **Tip**: Keep `active/F-{slug}.md` updated frequently so recovery is smooth.
 
 ---
 
@@ -444,17 +444,17 @@ When context compaction occurs (you notice memory loss or conversation reset):
 Since context is cleared after plan approval, plan files must be **self-contained**:
 
 - Specify sprint path as **absolute path** (e.g., `sprints/payment-system/`)
-- Include Feature/Task identifier (e.g., `F1/T2`)
+- Include Feature/Task identifier (e.g., `F-user-auth / T-login-api`)
 - List all files to reference (absolute paths)
 - Read and reference relevant decisions/lessons (summarize key points in plan):
   - `refs/decisions/_sprint.md` - Sprint-wide constraints
   - `refs/lessons/_sprint.md` - Sprint-wide lessons
-  - `active/F{n}-*.md` - Feature-specific decisions (in Decisions Made section)
-  - `refs/archive/F{n}-*.md` - Archived context from prior Features (if relevant)
+  - `active/F-{slug}.md` - Feature-specific decisions (in Decisions Made section)
+  - `refs/archive/F-{slug}.md` - Archived context from prior Features (if relevant)
 - Include work context summary
 - Include updating sprint files(i.e. HANDOFF.md, BACKLOG.md, etc.) according to the instruction file(<sprint>/INSTRUCTION.md)
 
-When writing plan files, always fill in the Sprint Context section of the `refs/plans/F{n}-T{m}-*.md` template. If using agent teams, include the team composition (see [Agent Teams > In Plan Files](#in-plan-files)).
+When writing plan files, always fill in the Sprint Context section of the `refs/plans/F-{feature-slug}-{task-id}.md` template. If using agent teams, include the team composition (see [Agent Teams > In Plan Files](#in-plan-files)).
 
 ---
 

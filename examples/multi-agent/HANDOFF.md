@@ -7,8 +7,8 @@
 ## Before You Start (REQUIRED)
 
 - [ ] Read `BACKLOG.md` - Find your assigned or available tasks
-- [ ] Read `refs/decisions/F{n}-*.md` - If working on Feature n
-- [ ] Check `active/F{n}-*.md` - Feature context (if exists)
+- [ ] Read `refs/decisions/F-{slug}-*.md` - If working on a Feature
+- [ ] Check `active/F-{slug}.md` - Feature context (if exists)
 - [ ] Check **Dependencies** below - Ensure nothing blocks your task
 
 ---
@@ -23,8 +23,8 @@ Each agent may only have **one task in_progress** at a time.
 
 | Agent | Focus Area | Status |
 |-------|-----------|--------|
-| #danny | F1: Payment | Active |
-| #agent-1 | F2: Order | Active |
+| #danny | F-payment: Payment | Active |
+| #agent-1 | F-order: Order | Active |
 
 ---
 
@@ -32,8 +32,8 @@ Each agent may only have **one task in_progress** at a time.
 
 | Feature | Task | Agent | Started | Notes |
 |---------|------|-------|---------|-------|
-| F1 | T1.2: Create Payment Intent | #danny | 2024-01-28 | Stripe API integration |
-| F2 | T2.2: Create Order API | #agent-1 | 2024-01-28 | DB transaction handling |
+| F-payment | T-payment-intent: Create Payment Intent | #danny | 2024-01-28 | Stripe API integration |
+| F-order | T-create-order: Create Order API | #agent-1 | 2024-01-28 | DB transaction handling |
 
 ---
 
@@ -51,8 +51,8 @@ Each agent may only have **one task in_progress** at a time.
 
 | Feature | Task | Agent | Completed | Notes |
 |---------|------|-------|-----------|-------|
-| F2 | T2.1: Order Model | #agent-1 | 2024-01-28 | With migration |
-| F1 | T1.1: Stripe SDK | #danny | 2024-01-27 | Test mode configured |
+| F-order | T-order-model: Order Model | #agent-1 | 2024-01-28 | With migration |
+| F-payment | T-stripe-sdk: Stripe SDK | #danny | 2024-01-27 | Test mode configured |
 
 ---
 
@@ -62,10 +62,10 @@ Each agent may only have **one task in_progress** at a time.
 
 | Item | Depends On | Status | Notes |
 |------|-----------|--------|-------|
-| T2.4 | T1.3 | T1.3 backlog | Needs Webhook for refund |
-| T3.2 | T2.2 | T2.2 in_progress | Email after order complete |
-| T3.3 | T1.4 | T1.4 backlog | Receipt after payment |
-| F3 | F1, F2 | Partially complete | Needs some F1, F2 complete |
+| T-cancel-order | T-webhook-handler | T-webhook-handler backlog | Needs Webhook for refund |
+| T-order-confirmation-email | T-create-order | T-create-order in_progress | Email after order complete |
+| T-payment-receipt-email | T-payment-confirmation | T-payment-confirmation backlog | Receipt after payment |
+| F-notification | F-payment, F-order | Partially complete | Needs some F-payment, F-order complete |
 
 ---
 
@@ -73,9 +73,9 @@ Each agent may only have **one task in_progress** at a time.
 
 | Task | Agent | Blocker | Since |
 |------|-------|---------|-------|
-| T2.4 | - | T1.3 incomplete (Webhook) | 2024-01-28 |
-| T3.2 | - | T2.2 incomplete (Order API) | 2024-01-28 |
-| T3.3 | - | T1.4 incomplete (Payment confirm) | 2024-01-28 |
+| T-cancel-order | - | T-webhook-handler incomplete (Webhook) | 2024-01-28 |
+| T-order-confirmation-email | - | T-create-order incomplete (Order API) | 2024-01-28 |
+| T-payment-receipt-email | - | T-payment-confirmation incomplete (Payment confirm) | 2024-01-28 |
 
 ---
 
@@ -83,11 +83,11 @@ Each agent may only have **one task in_progress** at a time.
 
 ### #danny ↔ #agent-1 Collaboration Points
 
-1. **T1.3 (Webhook) → T2.4 (Cancel Order)**
-   - #danny notifies #agent-1 when T1.3 completes
+1. **T-webhook-handler (Webhook) → T-cancel-order (Cancel Order)**
+   - #danny notifies #agent-1 when T-webhook-handler completes
    - Need prior agreement on refund logic interface
 
-2. **T2.2 (Create Order) → T1.2 (Payment Intent)**
+2. **T-create-order (Create Order) → T-payment-intent (Payment Intent)**
    - Payment integration after order creation
    - Order ID format agreed: UUID v4
 

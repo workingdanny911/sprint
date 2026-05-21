@@ -61,8 +61,8 @@ If the agent is running as part of `/sprint:work-on-feature`, it should select o
 
 | Target | Files to Read |
 |--------|---------------|
-| Feature | `refs/designs/F{n}-*`, `active/F{n}-*` (contains decisions), `refs/archive/F{n}-*` (if prior Feature) |
-| Task | `refs/plans/F{n}-T{m}-*`, related Feature files |
+| Feature | `refs/designs/F-{slug}.md`, `active/F-{slug}.md` (contains decisions), `refs/archive/F-{slug}.md` (if prior Feature) |
+| Task | `refs/plans/F-{feature-slug}-T-*.md`, related Feature files |
 
 **Sprint-wide (if needed):**
 - `refs/decisions/_sprint.md`
@@ -71,9 +71,9 @@ If the agent is running as part of `/sprint:work-on-feature`, it should select o
 **Report to user:**
 ```
 Recently completed items:
-- T1.2: Login API (done)
-- T1.3: Signup API (done)
-- F2: Dashboard (done)
+- T-login-api: Login API (done)
+- T-signup-api: Signup API (done)
+- F-dashboard: Dashboard (done)
 
 What would you like to review?
 1. Specific Task
@@ -125,7 +125,7 @@ Parallelization strategies:
 | Strategy | Description | Example |
 |----------|-------------|---------|
 | **By aspect** | Each agent reviews a different quality dimension | functionality, security, performance, code quality |
-| **By target** | Each agent reviews a different Task or component | Agent A: T1.1~T1.2, Agent B: T1.3~T1.4 |
+| **By target** | Each agent reviews a different Task or component | Agent A: T-login-api & T-signup-api, Agent B: T-token-refresh & T-logout-api |
 | **Cross-verification** | A separate agent validates the primary reviewer's findings | Reduces false positives and missed issues |
 
 After parallel review, **merge results into a single report** in Step 4.
@@ -266,15 +266,15 @@ Files modified:
 
 **Add improvement Tasks:**
 ```markdown
-- [x] T1.2: Login API `done`
-- [ ] T1.4: Fix review issues (T1.2) `backlog`  ← newly added
-  - [ ] T1.4.1: [Critical improvement 1]
-  - [ ] T1.4.2: [Improvement 1]
+- [x] T-login-api: Login API `done`
+- [ ] T-fix-login-api-review: Fix review issues (T-login-api) `backlog`  ← newly added
+  - [ ] T-fix-login-api-review.critical: [Critical improvement 1]
+  - [ ] T-fix-login-api-review.improvement: [Improvement 1]
 ```
 
 **Reopen Feature (if Feature was in completed state):**
 ```markdown
-- [ ] F1: Login System  ← changed from [x] to [ ]
+- [ ] F-user-auth: Login System  ← changed from [x] to [ ]
 ```
 
 ##### 6A.2 Update HANDOFF.md
@@ -283,7 +283,7 @@ Add to `## Context for Next Session`:
 ```markdown
 **Review results to address:**
 - [Item name] review found N improvement items
-- Improvement Task: T{n}.{m}
+- Improvement Task: T-{task-slug}
 - Work from Plan file - no Plan Mode needed
 ```
 
@@ -360,11 +360,11 @@ Files modified:
 
 ## Example Usage
 
-**User:** "Review T1.2"
+**User:** "Review T-login-api"
 
 **Claude:**
-1. Understand sprint context (check T1.2 in BACKLOG.md)
-2. Check T1.2 type (coding)
+1. Understand sprint context (check T-login-api in BACKLOG.md)
+2. Check T-login-api type (coding)
 3. Load coding checklist
 4. Perform systematic review
 5. Categorize and report results

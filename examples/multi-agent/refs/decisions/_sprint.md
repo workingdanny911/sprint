@@ -14,8 +14,8 @@
 - Easy tracking
 
 **Used in**:
-- F1: PaymentIntent metadata
-- F2: Order.id
+- F-payment: PaymentIntent metadata
+- F-order: Order.id
 
 ---
 

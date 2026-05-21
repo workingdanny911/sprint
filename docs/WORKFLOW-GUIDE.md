@@ -138,17 +138,17 @@ User: APIs work and tests pass
 #### Proposed Structure
 
 ```markdown
-### F1: User Authentication
+### F-user-auth: User Authentication
 > User auth (login, signup, password reset)
 > Social login excluded
 
 **Type**: coding
 
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Password Reset API `backlog`
-- [ ] T1.4: Auth Integration Tests `backlog`
-- [ ] T1.5: Review & Refactor F1 `backlog`
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-password-reset: Password Reset API `backlog`
+- [ ] T-auth-integration-tests: Auth Integration Tests `backlog`
+- [ ] T-review-user-auth: Review & Refactor `backlog`
 
 Proceed?
 
@@ -160,7 +160,7 @@ Create a design document? (2+ tasks → recommended)
 
 User: Yes
 
-Claude: Created refs/designs/F1-authentication.md
+Claude: Created refs/designs/F-user-auth.md
 ```
 
 ### 2.1a Add Features (Worktree Mode)
@@ -176,13 +176,13 @@ Additional steps when adding features in worktree mode:
 For complex Tasks, use `/sprint:plan-backlog`:
 
 ```
-User: /sprint:plan-backlog T1.1
+User: /sprint:plan-backlog T-login-api
 ```
 
 #### Brainstorming → Planning
 
 ```
-Claude: Let's design T1.1: Login API.
+Claude: Let's design T-login-api: Login API.
 
 Which authentication method?
 1. JWT (recommended) - stateless, scalable
@@ -206,10 +206,10 @@ User: Yes
 
 Claude: I propose the following plan:
 
-- [ ] T1.1.1: Define request/response schema
-- [ ] T1.1.2: Implement login endpoint
-- [ ] T1.1.3: Add input validation
-- [ ] T1.1.4: Add rate limiting
+- [ ] T-login-api.schema: Define request/response schema
+- [ ] T-login-api.endpoint: Implement login endpoint
+- [ ] T-login-api.validation: Add input validation
+- [ ] T-login-api.rate-limiting: Add rate limiting
 ```
 
 ---
@@ -230,7 +230,7 @@ User: @sprints/my-sprint/INSTRUCTION.md #rook
 Claude: Starting session as #rook.
 
 [Reading sprint files from Sprint Root: /abs/path/sprints/my-sprint/]
-[Code work in worktree: /abs/path/worktrees/F1-user-auth/]
+[Code work in worktree: /abs/path/worktrees/F-user-auth/]
 ```
 
 ### 3.2 Agent Behavior
@@ -241,12 +241,12 @@ Claude: Starting session as #rook.
 [Reading BACKLOG.md, HANDOFF.md]
 
 Current state:
-- F1: User Authentication (4 tasks)
-  - T1.1: Login API `backlog` ← Top priority
-  - T1.2: Signup API `backlog`
+- F-user-auth: User Authentication (4 tasks)
+  - T-login-api: Login API `backlog` ← Top priority
+  - T-signup-api: Signup API `backlog`
   - ...
 
-Claiming and starting T1.1: Login API.
+Claiming and starting T-login-api: Login API.
 ```
 
 ### 3.3 Working
@@ -255,17 +255,17 @@ What Claude does:
 
 1. **Update BACKLOG.md**
    ```markdown
-   - [ ] T1.1: Login API #rook `in_progress`
+   - [ ] T-login-api: Login API #rook `in_progress`
    ```
 
 2. **Update HANDOFF.md**
    ```markdown
-   | F1 | T1.1: Login API | #rook | 2024-01-28 | JWT impl |
+   | F-user-auth | T-login-api: Login API | #rook | 2024-01-28 | JWT impl |
    ```
 
 3. **Create active/ file** (if first Task for Feature)
    ```
-   active/F1-user-auth.md
+   active/F-user-auth.md
    ```
 
 4. **Execute actual work**
@@ -275,12 +275,12 @@ What Claude does:
 ### 3.4 Task Completion
 
 ```
-Claude: Completed T1.1: Login API.
+Claude: Completed T-login-api: Login API.
 
 Updates:
-- BACKLOG.md: T1.1 → review
+- BACKLOG.md: T-login-api → review
 - HANDOFF.md: Moved to In Review
-- active/F1-user-auth.md: Added completion notes
+- active/F-user-auth.md: Added completion notes
 
 Summary of work done:
 - Implemented JWT-based login endpoint
@@ -301,7 +301,7 @@ User: @sprints/payment-system/INSTRUCTION.md #rook
 
 Claude: Starting session as #rook.
 
-Found T1.1: Login API in `review` status.
+Found T-login-api: Login API in `review` status.
 
 Here's what was done:
 - Implemented POST /auth/login endpoint
@@ -314,7 +314,7 @@ Please review. Approve to mark done, or let me know what needs changes.
 
 | User Decision | What Happens |
 |---------------|--------------|
-| Approve | T1.1 → `done`, moved to Recently Done |
+| Approve | T-login-api → `done`, moved to Recently Done |
 | Request changes | Improvement tasks created or fixes applied, then re-mark `review` |
 
 ### 3.6 Next Task
@@ -334,68 +334,68 @@ Instead of manually starting sessions for each Task, use `/sprint:work-on-featur
 ### Run
 
 ```
-User: /sprint:work-on-feature F1
+User: /sprint:work-on-feature F-user-auth
 ```
 
 ### What Happens
 
 ```
 Claude: This Feature has 5 Tasks:
-- T1.1: Login API
-- T1.2: Signup API
-- T1.3: Password Reset API
-- T1.4: Auth Integration Tests
-- T1.5: Review & Refactor F1
+- T-login-api: Login API
+- T-signup-api: Signup API
+- T-password-reset: Password Reset API
+- T-auth-integration-tests: Auth Integration Tests
+- T-review-user-auth: Review & Refactor
 
 Would you like a detailed explanation first?
 
 User: No
 
-Claude: ## Execution Plan for F1: User Authentication
+Claude: ## Execution Plan for F-user-auth: User Authentication
 
-**Team**: feature-F1
+**Team**: feature-F-user-auth
 **Model**: opus (all teammates)
 
 **Batch 1** (parallel)
 | Task | Teammate | Persona | Type | Plan |
 |------|----------|---------|------|------|
-| T1.1: Login API | worker-T1.1 | rook | coding | refs/plans/F1-T1-plan.md |
-| T1.2: Signup API | worker-T1.2 | rook | coding | none |
+| T-login-api: Login API | worker-T-login-api | rook | coding | refs/plans/F-user-auth-T-login-api.md |
+| T-signup-api: Signup API | worker-T-signup-api | rook | coding | none |
 
 **Batch 2** (after Batch 1)
 | Task | Teammate | Persona | Type | Plan |
 |------|----------|---------|------|------|
-| T1.3: Password Reset API | worker-T1.3 | rook | coding | none |
-| T1.4: Auth Integration Tests | worker-T1.4 | rook | coding | none |
+| T-password-reset: Password Reset API | worker-T-password-reset | rook | coding | none |
+| T-auth-integration-tests: Auth Integration Tests | worker-T-auth-integration-tests | rook | coding | none |
 
 **Verifier**: verifier (thorn, spawned per verification cycle)
-**Review & Refactor**: reviewer-F1 (thorn)
+**Review & Refactor**: reviewer-F-user-auth (thorn)
 
 Proceed?
 
 User: Yes
 
-Claude: [Creates Agent Team "feature-F1"]
-[Spawns worker-T1.1, worker-T1.2 as teammates (opus)]
+Claude: [Creates Agent Team "feature-F-user-auth"]
+[Spawns worker-T-login-api, worker-T-signup-api as teammates (opus)]
 
-✓ T1.1 done (rook) — 3 self-review fixes, 0 verification fixes
-✓ T1.2 done (rook) — 1 self-review fix, 1 verification fix
-✓ T1.3 done (rook) — 2 self-review fixes, 0 verification fixes
-✓ T1.4 done (rook) — 0 self-review fixes, 0 verification fixes
+✓ T-login-api done (rook) — 3 self-review fixes, 0 verification fixes
+✓ T-signup-api done (rook) — 1 self-review fix, 1 verification fix
+✓ T-password-reset done (rook) — 2 self-review fixes, 0 verification fixes
+✓ T-auth-integration-tests done (rook) — 0 self-review fixes, 0 verification fixes
 
 Running Review & Refactor...
 
-## Feature F1: User Authentication — Execution Complete
+## Feature F-user-auth: User Authentication — Execution Complete
 
-**Team**: feature-F1 (shutdown)
+**Team**: feature-F-user-auth (shutdown)
 
 | Task | Teammate | Persona | Review Fixes | Verification Fixes | Status |
 |------|----------|---------|-------------|-------------------|--------|
-| T1.1 | worker-T1.1 | rook | 3 self-review | 0 | ✓ done |
-| T1.2 | worker-T1.2 | rook | 1 self-review | 1 | ✓ done |
-| T1.3 | worker-T1.3 | rook | 2 self-review | 0 | ✓ done |
-| T1.4 | worker-T1.4 | rook | 0 | 0 | ✓ done |
-| T1.5 R&R | reviewer-F1 | thorn | 3 | — | ⏳ review |
+| T-login-api | worker-T-login-api | rook | 3 self-review | 0 | ✓ done |
+| T-signup-api | worker-T-signup-api | rook | 1 self-review | 1 | ✓ done |
+| T-password-reset | worker-T-password-reset | rook | 2 self-review | 0 | ✓ done |
+| T-auth-integration-tests | worker-T-auth-integration-tests | rook | 0 | 0 | ✓ done |
+| T-review-user-auth R&R | reviewer-F-user-auth | thorn | 3 | — | ⏳ review |
 
 R&R Task is in review status. Please verify and mark done.
 ```
@@ -403,16 +403,16 @@ R&R Task is in review status. Please verify and mark done.
 ### Agent Team Communication Flow
 
 ```
-Lead ──SendMessage──► worker-T1.1: "implement task"
-     ◄──SendMessage── worker-T1.1: "implementation complete, files: [...]"
-Lead ──SendMessage──► worker-T1.1: "run /sprint:review-work"
-     ◄──SendMessage── worker-T1.1: "findings: 🔴 1, 🟡 1, 🟢 1, 💡 0"
-Lead ──SendMessage──► worker-T1.1: "fix all (including suggestions)"
-     ◄──SendMessage── worker-T1.1: "all fixed, updated files: [...]"
-Lead spawns verifier-T1.1 (thorn, opus)
-     verifier ◄──SendMessage──► worker-T1.1  (design intent Q&A)
-     ◄──SendMessage── verifier-T1.1: "PASS"
-Lead ──shutdown──► worker-T1.1, verifier-T1.1
+Lead ──SendMessage──► worker-T-login-api: "implement task"
+     ◄──SendMessage── worker-T-login-api: "implementation complete, files: [...]"
+Lead ──SendMessage──► worker-T-login-api: "run /sprint:review-work"
+     ◄──SendMessage── worker-T-login-api: "findings: 🔴 1, 🟡 1, 🟢 1, 💡 0"
+Lead ──SendMessage──► worker-T-login-api: "fix all (including suggestions)"
+     ◄──SendMessage── worker-T-login-api: "all fixed, updated files: [...]"
+Lead spawns verifier-T-login-api (thorn, opus)
+     verifier ◄──SendMessage──► worker-T-login-api  (design intent Q&A)
+     ◄──SendMessage── verifier-T-login-api: "PASS"
+Lead ──shutdown──► worker-T-login-api, verifier-T-login-api
 ```
 
 ### Resume After Failure
@@ -420,7 +420,7 @@ Lead ──shutdown──► worker-T1.1, verifier-T1.1
 If execution stops due to an error, re-run the same command:
 
 ```
-User: /sprint:work-on-feature F1
+User: /sprint:work-on-feature F-user-auth
 ```
 
 The orchestrator detects completed Tasks and resumes from where it stopped.
@@ -432,7 +432,7 @@ The orchestrator detects completed Tasks and resumes from where it stopped.
 ### 4.1 Run Review
 
 ```
-User: /sprint:review-backlog T1.1
+User: /sprint:review-backlog T-login-api
 ```
 
 ### 4.2 Apply Checklist
@@ -440,7 +440,7 @@ User: /sprint:review-backlog T1.1
 Review with type-appropriate checklist (`coding`):
 
 ```
-Claude: Review results for T1.1: Login API
+Claude: Review results for T-login-api: Login API
 
 ### 🔴 Critical (1)
 1. Password hashing not applied
@@ -466,10 +466,10 @@ User: Yes
 
 Claude: Adding following improvement Tasks:
 
-- [ ] T1.6: Fix review issues (T1.1) `backlog`
-  - [ ] T1.6.1: Add password hashing
-  - [ ] T1.6.2: Generalize error messages
-  - [ ] T1.6.3: Add rate limiting
+- [ ] T-fix-login-api: Fix review issues (T-login-api) `backlog`
+  - [ ] T-fix-login-api.password-hashing: Add password hashing
+  - [ ] T-fix-login-api.error-messages: Generalize error messages
+  - [ ] T-fix-login-api.rate-limiting: Add rate limiting
 ```
 
 ---
@@ -482,16 +482,16 @@ Claude: Adding following improvement Tasks:
 ┌────────────────┐     ┌────────────────┐
 │  Session 1     │     │  Session 2     │
 │  #rook         │     │  #pixel        │
-│  T1.1 work     │     │  T2.1 work     │
+│  T-login-api   │     │  T-get-profile │
 └───────┬────────┘     └───────┬────────┘
         │                      │
         ▼                      ▼
-   ┌────────────────────────────────┐
-   │          Sprint Files          │
-   │  BACKLOG.md (own Task only)    │
-   │  HANDOFF.md (own row only)     │
-   │  active/F1-*.md | active/F2-*  │
-   └────────────────────────────────┘
+   ┌──────────────────────────────────────────────┐
+   │                Sprint Files                  │
+   │  BACKLOG.md (own Task only)                  │
+   │  HANDOFF.md (own row only)                   │
+   │  active/F-auth.md | active/F-user-profile.md │
+   └──────────────────────────────────────────────┘
 ```
 
 ### Conflict Prevention Rules
@@ -512,15 +512,15 @@ Claude: Adding following improvement Tasks:
 ```
 # Session 1: #rook
 @INSTRUCTION.md #rook
-→ Start T1.2
+→ Start T-signup-api
 → Need to end session mid-work
-→ Record state in active/F1-*.md
-→ BACKLOG.md: T1.2 `blocked` (with reason)
+→ Record state in active/F-auth.md
+→ BACKLOG.md: T-signup-api `blocked` (with reason)
 
 # Session 2: #pixel
 @INSTRUCTION.md #pixel
-→ Read active/F1-*.md
-→ Check T1.2 status, continue work
+→ Read active/F-auth.md
+→ Check T-signup-api status, continue work
 ```
 
 ---
@@ -535,7 +535,7 @@ When context compaction occurs during a Claude Code session:
 1. Re-read INSTRUCTION.md
 2. Re-read BACKLOG.md
 3. Re-read HANDOFF.md
-4. Re-read active/F{n}-*.md (most important!)
+4. Re-read active/F-{slug}.md (most important!)
 5. Maintain same agent name
 6. Continue in-progress Task
 ```
@@ -553,12 +553,12 @@ When context compaction occurs during a Claude Code session:
 ### On Feature Completion
 
 1. Mark Feature as `[x]` `done` in BACKLOG.md
-2. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md` (preserve as-is)
+2. Move `active/F-{slug}.md` → `refs/archive/F-{slug}.md` (preserve as-is)
 3. Add **Lessons Learned** section to the archived file
 4. Finalize **Decisions Made** section in the archived file
 5. Sprint-wide insights only → `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
 6. Remove Feature section from BACKLOG.md, add one-line to Done:
-   `F1: Feature Name - completed YYYY-MM-DD`
+   `F-{slug}: Feature Name - completed YYYY-MM-DD`
 
 ### On Sprint Completion
 

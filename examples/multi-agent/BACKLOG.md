@@ -15,12 +15,12 @@
 
 ---
 
-## Numbering
+## Identifiers
 
 ```
-F{n}      - Feature number (F1, F2, F3...)
-T{f}.{t}  - Task: Feature f, Task t (T1.1, T1.2, T2.1...)
-T{f}.{t}.{s} - Sub-task (T1.1.1, T1.1.2...)
+F-{feature-slug}        - Feature (F-payment, F-order, F-notification...)
+T-{task-slug}           - Task: content-based, globally unique (T-payment-intent...)
+T-{task-slug}.{sub-slug} - Sub-task (T-login-api.schema...)
 ```
 
 ---
@@ -41,43 +41,43 @@ backlog ──────► in_progress ──────► review ───
 
 ## Features
 
-### [URGENT] F1: Payment Integration
+### [URGENT] F-payment: Payment Integration
 > Stripe payment integration (urgent - launch deadline)
 
-**Design**: [refs/designs/F1-payment.md](refs/designs/F1-payment.md)
-**Context**: [active/F1-payment.md](active/F1-payment.md)
+**Design**: [refs/designs/F-payment.md](refs/designs/F-payment.md)
+**Context**: [active/F-payment.md](active/F-payment.md)
 
-- [x] T1.1: Stripe SDK Setup `done`
-- [ ] T1.2: Create Payment Intent API #danny `in_progress`
-- [ ] T1.3: Webhook Handler `backlog`
-- [ ] T1.4: Payment Confirmation Flow `backlog`
-- [ ] T1.5: Review & Refactor F1 `backlog`
+- [x] T-stripe-sdk: Stripe SDK Setup `done`
+- [ ] T-payment-intent: Create Payment Intent API #danny `in_progress`
+- [ ] T-webhook-handler: Webhook Handler `backlog`
+- [ ] T-payment-confirmation: Payment Confirmation Flow `backlog`
+- [ ] T-review-payment: Review & Refactor `backlog`
 
 ---
 
-### F2: Order Management
+### F-order: Order Management
 > Order creation, retrieval, cancellation
 
-**Design**: [refs/designs/F2-order.md](refs/designs/F2-order.md)
-**Context**: [active/F2-order.md](active/F2-order.md)
+**Design**: [refs/designs/F-order.md](refs/designs/F-order.md)
+**Context**: [active/F-order.md](active/F-order.md)
 
-- [x] T2.1: Order Model & Migration `done`
-- [ ] T2.2: Create Order API #agent-1 `in_progress`
-- [ ] T2.3: Get Order API `backlog`
-- [ ] T2.4: Cancel Order API `blocked` → depends on T1.3 (refund logic)
-- [ ] T2.5: Review & Refactor F2 `backlog`
+- [x] T-order-model: Order Model & Migration `done`
+- [ ] T-create-order: Create Order API #agent-1 `in_progress`
+- [ ] T-get-order: Get Order API `backlog`
+- [ ] T-cancel-order: Cancel Order API `blocked` → depends on T-webhook-handler (refund logic)
+- [ ] T-review-order: Review & Refactor `backlog`
 
 ---
 
-### F3: Notification System
+### F-notification: Notification System
 > Email, push notifications
 
-**Design**: [refs/designs/F3-notification.md](refs/designs/F3-notification.md)
+**Design**: [refs/designs/F-notification.md](refs/designs/F-notification.md)
 
-- [ ] T3.1: Email Service Setup `backlog`
-- [ ] T3.2: Order Confirmation Email `blocked` → depends on T2.2
-- [ ] T3.3: Payment Receipt Email `blocked` → depends on T1.4
-- [ ] T3.4: Review & Refactor F3 `backlog`
+- [ ] T-email-service: Email Service Setup `backlog`
+- [ ] T-order-confirmation-email: Order Confirmation Email `blocked` → depends on T-create-order
+- [ ] T-payment-receipt-email: Payment Receipt Email `blocked` → depends on T-payment-confirmation
+- [ ] T-review-notification: Review & Refactor `backlog`
 
 ---
 
@@ -93,6 +93,6 @@ backlog ──────► in_progress ──────► review ───
 
 When a Feature is `done`:
 
-1. Move full Feature section → `refs/archive/F{n}-name.md`
+1. Move full Feature section → `refs/archive/F-{slug}.md`
 2. Leave one-line summary here:
-   - `F1: Feature Name` - completed YYYY-MM-DD
+   - `F-{slug}: Feature Name` - completed YYYY-MM-DD

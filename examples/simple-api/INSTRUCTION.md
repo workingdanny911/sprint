@@ -13,16 +13,16 @@ When you receive `@INSTRUCTION.md #agent-name`:
 2. **Read required files**:
    - `BACKLOG.md` - Find your task or available work
    - `HANDOFF.md` - Current work status
-   - `refs/decisions/F{n}-*.md` - Feature-specific decisions (if working on F{n})
-   - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
+   - `refs/decisions/F-{slug}-*.md` - Feature-specific decisions (if working on that Feature)
+   - `refs/lessons/F-{slug}-*.md` - Feature-specific lessons (if exists)
    - `refs/decisions/_sprint.md` - Sprint-wide constraints (if exists)
 3. **Find your task**:
    - Already assigned to you? Continue it.
    - Nothing assigned? Claim from backlog (highest priority first, `[URGENT]` first).
 4. **Read task context** (if exists):
-   - `refs/designs/F{n}-*.md` - Feature design
-   - `refs/plans/F{n}-T{m}-*.md` - Task plan
-   - `active/F{n}-*.md` - Feature working context
+   - `refs/designs/F-{slug}.md` - Feature design
+   - `refs/plans/F-{feature-slug}-{task-id}.md` - Task plan
+   - `active/F-{slug}.md` - Feature working context
 5. **State your task** before starting work
 
 ---
@@ -74,7 +74,7 @@ Before claiming a new task, verify:
 1. Verify against Definition of Done
 2. Update HANDOFF.md: Move to In Review or Recently Done
 3. Update BACKLOG.md: Mark `[x]`, status to `review` or `done`
-4. Update `active/F{n}-*.md` with completion notes
+4. Update `active/F-{slug}.md` with completion notes
 5. **END SESSION** - Do NOT automatically claim next task
 
 > **One session = One task.** After completing a task, end the session.
@@ -86,21 +86,21 @@ Before claiming a new task, verify:
 
 ### When starting first task of a Feature:
 
-1. Create `active/F{n}-name.md` from template
+1. Create `active/F-{slug}.md` from template
 2. Link to design doc and any task plans
 3. Document initial understanding
 
 ### While working:
 
 1. Update active context with decisions, progress, notes
-2. Keep decisions in `active/F{n}-*.md` during work
+2. Keep decisions in `active/F-{slug}.md` during work
 
 ### When Feature is done:
 
-1. Move decisions to `refs/decisions/F{n}-*.md`
-2. Move lessons to `refs/lessons/F{n}-*.md`
+1. Move decisions to `refs/decisions/F-{slug}-*.md`
+2. Move lessons to `refs/lessons/F-{slug}-*.md`
 3. Only sprint-wide insights go to `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
-4. Delete `active/F{n}-*.md`
+4. Delete `active/F-{slug}.md`
 
 ---
 
@@ -111,7 +111,7 @@ Before ending your session:
 1. **Update BACKLOG.md** - Task status accurate
 2. **Update HANDOFF.md** - Progress documented
 3. **Update active/ context** - Notes for next session
-4. **If Feature done**: Move decisions to `refs/decisions/F{n}-*.md`, lessons to `refs/lessons/F{n}-*.md`
+4. **If Feature done**: Move decisions to `refs/decisions/F-{slug}-*.md`, lessons to `refs/lessons/F-{slug}-*.md`
 
 ---
 
@@ -123,7 +123,7 @@ When context compaction occurs:
    - `INSTRUCTION.md` - Restore your guidelines
    - `BACKLOG.md` - Find your assigned task
    - `HANDOFF.md` - Current work status
-   - `active/F{n}-*.md` - Your working context (most important)
+   - `active/F-{slug}.md` - Your working context (most important)
 
 2. **Restore your state**:
    - Identify yourself as the same `#agent-name`

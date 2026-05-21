@@ -4,28 +4,28 @@
 
 The Sprint plugin manages work in a 3-level hierarchy.
 
-### Feature (F{n})
+### Feature (F-{slug})
 
 - **Definition**: An independent unit of functionality that provides value to users
 - **Examples**: "User Authentication System", "Payment Module", "Dashboard"
 - **Characteristics**:
   - Composed of multiple Tasks
-  - Design document recommended (`refs/designs/F{n}-*.md`)
+  - Design document recommended (`refs/designs/F-{slug}.md`)
   - Moved to archive when complete
 
 ```markdown
-### F1: User Authentication
+### F-user-auth: User Authentication
 > User login/signup functionality
 
-**Design**: [refs/designs/F1-user-auth.md](refs/designs/F1-user-auth.md)
+**Design**: [refs/designs/F-user-auth.md](refs/designs/F-user-auth.md)
 
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Token Refresh `backlog`
-- [ ] T1.4: Review & Refactor F1 `backlog`
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-token-refresh: Token Refresh `backlog`
+- [ ] T-review-user-auth: Review & Refactor `backlog`
 ```
 
-### Task (T{f}.{t})
+### Task (T-{task-slug})
 
 - **Definition**: A unit of work completable in a single Claude Code session
 - **Examples**: "Implement Login API", "Write tests", "Update documentation"
@@ -37,22 +37,22 @@ The Sprint plugin manages work in a 3-level hierarchy.
   - `general` - Other
 
 ```markdown
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API #danny `in_progress`
-- [x] T1.3: Token Refresh `done`
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API #danny `in_progress`
+- [x] T-token-refresh: Token Refresh `done`
 ```
 
-### Sub-task (T{f}.{t}.{s})
+### Sub-task (T-{task-slug}.{sub-slug})
 
 - **Definition**: A Task broken down into smaller steps
 - **Examples**: "Define schema", "Implement endpoint", "Add validation"
 - **Purpose**: Track progress on complex Tasks
 
 ```markdown
-- [ ] T1.1: Login API `in_progress`
-  - [x] T1.1.1: Define request/response schema
-  - [ ] T1.1.2: Implement endpoint
-  - [ ] T1.1.3: Add validation
+- [ ] T-login-api: Login API `in_progress`
+  - [x] T-login-api.schema: Define request/response schema
+  - [ ] T-login-api.endpoint: Implement endpoint
+  - [ ] T-login-api.validation: Add validation
 ```
 
 ---
@@ -170,15 +170,15 @@ Agent teams serve two purposes:
 Agent teams apply at any scope:
 
 ```
-Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel)
-┌──────────────────────────────────┐     ┌──────────────────────────────────┐
-│ lead    worker-1   worker-2      │     │ lead    worker-1   worker-2      │
-│ T1.1    T1.2       T1.3         │     │ T1.1.1  T1.1.2     T1.1.3       │
-│   └───────┼─────────┘           │     │   └───────┼─────────┘           │
-│           ▼                      │     │           ▼                      │
-│    Lead merges, continues        │     │    Merge results                 │
-│    with T1.4, T1.5               │     └──────────────────────────────────┘
-└──────────────────────────────────┘
+Feature Assignment (Tasks in parallel)         Task Assignment (Sub-tasks in parallel)
+┌────────────────────────────────────────┐    ┌──────────────────────────────────────────────────────┐
+│ lead       worker-1      worker-2       │    │ lead              worker-1           worker-2          │
+│ T-login    T-signup      T-pwd-reset    │    │ T-login.schema    T-login.endpoint   T-login.validation│
+│   └──────────┼─────────────┘            │    │   └──────────────────┼──────────────────┘             │
+│              ▼                           │    │                      ▼                                 │
+│    Lead merges, continues                │    │              Merge results                             │
+│    with T-auth-tests, T-review-user-auth │    └──────────────────────────────────────────────────────┘
+└────────────────────────────────────────┘
 ```
 
 **Use when:** 2+ independent sub-items (speed), or independent perspectives needed (quality).
@@ -208,7 +208,7 @@ Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel
 - **Contents**: Session start/end procedures, persona system, conflict prevention
 - **Modification**: Rarely (only on template updates)
 
-### active/F{n}-*.md
+### active/F-{slug}.md
 
 - **Role**: Working context for in-progress Features
 - **Contents**: Current state, decisions, next steps, notes
@@ -226,25 +226,29 @@ Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel
 
 ---
 
-## 5. Numbering System
+## 5. Naming System
 
 ```
-F{n}        - Feature number (F1, F2, F3...)
-T{f}.{t}    - Task: Feature f, Task t (T1.1, T1.2...)
-T{f}.{t}.{s} - Sub-task (T1.1.1, T1.1.2...)
+F-{feature-slug}        - Feature: kebab-case slug from the Feature name (F-user-auth, F-payment...)
+T-{task-slug}           - Task: kebab-case slug from the Task content, no Feature prefix (T-login-api, T-refund-api...)
+T-{task-slug}.{sub-slug} - Sub-task: one level under a Task (T-login-api.schema, T-login-api.endpoint...)
 ```
 
 ### Example
 
 ```
-T3.2.1 = Feature 3, Task 2, Sub-task 1
+F-payment                  = Feature "Payment System"
+T-payment-gateway          = Task "Payment Gateway Integration"
+T-payment-gateway.webhook  = Sub-task "Webhook Handler Setup" under T-payment-gateway
 ```
 
-### Number Assignment Rules
+### Slug Rules
 
-- Feature: Sequential increment (existing max + 1)
-- Task: Sequential within Feature (T1.1, T1.2...)
-- Sub-task: Sequential within Task (T1.1.1, T1.1.2...)
+- **Feature slug**: kebab-case derived from the Feature name (`Payment System` → `F-payment`). On collision with an existing Feature slug, confirm a different name with the user.
+- **Task slug**: kebab-case derived from the Task content, **globally unique across the whole sprint** with **no Feature prefix** (`Login API` → `T-login-api`, not `T-user-auth-login`). On collision with any existing Task slug, confirm a different name with the user.
+- **Sub-task slug**: one `.{sub-slug}` segment appended to the parent Task slug (`T-login-api.schema`). One level only.
+- **R&R Task**: slug `T-review-{feature-slug}` (e.g. `T-review-user-auth`), title kept as "Review & Refactor".
+- No sequential numbering — slugs are descriptive, not positional. There is no max+1 increment.
 
 ---
 
@@ -256,13 +260,13 @@ T3.2.1 = Feature 3, Task 2, Sub-task 1
 2. **URGENT**: `[URGENT]` prefix for time-sensitive items
 
 ```markdown
-### [URGENT] F1: Critical Bug Fix   ← Highest priority
+### [URGENT] F-critical-bugfix: Critical Bug Fix   ← Highest priority
 > Urgent fix needed
 
-### F2: User Dashboard              ← Second priority
+### F-dashboard: User Dashboard                     ← Second priority
 > New feature
 
-### F3: Documentation               ← Third priority
+### F-docs: Documentation                           ← Third priority
 > Documentation
 ```
 
@@ -281,18 +285,18 @@ T3.2.1 = Feature 3, Task 2, Sub-task 1
 Every Feature includes a final review/refactor Task:
 
 ```markdown
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Review & Refactor F1 `backlog`  ← Required
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-review-user-auth: Review & Refactor `backlog`  ← Required
 ```
 
 ### When to Add Review Tasks
 
 | Situation | Task to Add |
 |-----------|-------------|
-| Feature completion | `Review & Refactor F{n}` |
-| Complex Task (3+ sub-tasks) | `Review T{n}.Y` |
-| Integration points | `Review integration` |
+| Feature completion | `T-review-{feature-slug}: Review & Refactor` |
+| Complex Task (3+ sub-tasks) | `T-review-{task-slug}: Review` |
+| Integration points | `T-review-integration: Review integration` |
 
 ### Review Contents
 
@@ -326,7 +330,7 @@ An orchestrator skill that creates an **Agent Team** to automatically execute al
 ### Execution Flow
 
 ```
-/sprint:work-on-feature F{n}
+/sprint:work-on-feature F-{slug}
     │
     ▼
 Briefing? ──Yes──► /explain
@@ -338,7 +342,7 @@ Execution Plan (persona matching + batch grouping)
 User Approval
     │
     ▼
-TeamCreate("feature-F{n}")
+TeamCreate("feature-F-{slug}")
     │
     ▼
 ┌──────────────── Batch Loop ────────────────┐
@@ -389,11 +393,11 @@ Claude Code sessions are independent → no knowledge of previous sessions
 │     └──────────────────────┼──────────────────────┘         │
 │                            │                                │
 │                            ▼                                │
-│                    ┌───────────────┐                        │
-│                    │ active/F1-*.md │ ◄── Shared context    │
-│                    │ refs/decisions/ │                       │
-│                    │ refs/lessons/   │                       │
-│                    └───────────────┘                        │
+│                    ┌────────────────────┐                   │
+│                    │ active/F-user-auth.md │ ◄── Shared context│
+│                    │ refs/decisions/       │                   │
+│                    │ refs/lessons/         │                   │
+│                    └────────────────────┘                   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -401,10 +405,10 @@ Claude Code sessions are independent → no knowledge of previous sessions
 
 | Type | Location | Example |
 |------|----------|---------|
-| Progress | `active/F{n}-*.md` | "T1.2 done, T1.3 in progress" |
+| Progress | `active/F-{slug}.md` | "T-signup-api done, T-token-refresh in progress" |
 | Decisions | `refs/decisions/` | "JWT vs Session → chose JWT" |
 | Lessons | `refs/lessons/` | "Need to unify API response format" |
-| Blockers | `HANDOFF.md` | "T2.1 blocked: DB schema undefined" |
+| Blockers | `HANDOFF.md` | "T-notification-api blocked: DB schema undefined" |
 
 ---
 
@@ -428,14 +432,14 @@ Git worktree를 활용해 Feature별로 독립된 코드 작업 공간을 제공
 
 ```
 Main Worktree (Sprint Root)          Feature Worktrees
-┌────────────────────────┐          ┌────────────────────┐
-│ sprints/my-sprint/     │          │ ../worktrees/F1/   │
-│   ├── BACKLOG.md       │ ◄─────  │   ├── src/         │
-│   ├── HANDOFF.md       │  read/  │   └── ...          │
-│   ├── INSTRUCTION.md   │  write  └────────────────────┘
-│   ├── active/          │          ┌────────────────────┐
-│   └── refs/            │ ◄─────  │ ../worktrees/F2/   │
-│                        │  read/  │   ├── src/         │
+┌────────────────────────┐          ┌─────────────────────────┐
+│ sprints/my-sprint/     │          │ ../worktrees/F-user-auth/ │
+│   ├── BACKLOG.md       │ ◄─────  │   ├── src/              │
+│   ├── HANDOFF.md       │  read/  │   └── ...               │
+│   ├── INSTRUCTION.md   │  write  └─────────────────────────┘
+│   ├── active/          │          ┌─────────────────────────┐
+│   └── refs/            │ ◄─────  │ ../worktrees/F-payment/   │
+│                        │  read/  │   ├── src/              │
 │ .gitignore             │  write  │   └── ...          │
 │   └── sprints/         │          └────────────────────┘
 └────────────────────────┘

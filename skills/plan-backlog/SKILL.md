@@ -36,8 +36,8 @@ This skill operates in a sprint folder containing:
 
 | Target | Files to Read |
 |--------|---------------|
-| Feature | `refs/designs/F{n}-*`, `active/F{n}-*` (contains decisions), `refs/archive/F{n}-*` (if prior Feature) |
-| Task | `refs/plans/F{n}-T{m}-*`, related Feature files |
+| Feature | `refs/designs/F-{slug}.md`, `active/F-{slug}.md` (contains decisions), `refs/archive/F-{slug}.md` (if prior Feature) |
+| Task | `refs/plans/F-{feature-slug}-T-*.md`, related Feature files |
 
 **Sprint-wide (if needed):**
 - `refs/decisions/_sprint.md`
@@ -46,8 +46,8 @@ This skill operates in a sprint folder containing:
 **Report to user:**
 ```
 Current backlog:
-- F1: [Feature name] (N tasks)
-- F2: [Feature name] (N tasks)
+- F-user-auth: [Feature name] (N tasks)
+- F-dashboard: [Feature name] (N tasks)
 
 Which item would you like to design in detail?
 1. Entire Feature
@@ -134,7 +134,7 @@ Now entering Plan Mode to write the detailed plan.
 **Content to write in Plan Mode:**
 
 ```markdown
-# F{n}-T{m}: [Item Name] Implementation Plan
+# F-{feature-slug}-T-{task-slug}: [Item Name] Implementation Plan
 
 > This plan will be executed in the next session via `@INSTRUCTION.md`.
 > Do not start work immediately after plan approval.
@@ -146,12 +146,12 @@ Now entering Plan Mode to write the detailed plan.
 
 ## Sub-tasks
 
-### T{n}.{m}.1: [Sub-task name]
+### T-{task-slug}.{sub-slug}: [Sub-task name]
 - Purpose: ...
 - Details: ...
 - Completion criteria: ...
 
-### T{n}.{m}.2: [Sub-task name]
+### T-{task-slug}.{another-sub-slug}: [Sub-task name]
 ...
 
 ## Technical Considerations
@@ -209,25 +209,25 @@ When user approves the Plan:
 
 **Before:**
 ```markdown
-- [ ] T1.1: Login API `backlog`
+- [ ] T-login-api: Login API `backlog`
 ```
 
 **After:**
 ```markdown
-- [ ] T1.1: Login API `backlog`
-  - [ ] T1.1.1: Define request/response schema
-  - [ ] T1.1.2: Implement endpoint
-  - [ ] T1.1.3: Add validation
+- [ ] T-login-api: Login API `backlog`
+  - [ ] T-login-api.schema: Define request/response schema
+  - [ ] T-login-api.endpoint: Implement endpoint
+  - [ ] T-login-api.validation: Add validation
 ```
 
 #### 4.2 Create Plan Document
 
-Create `refs/plans/F{n}-T{m}-[name].md`
+Create `refs/plans/F-{feature-slug}-T-{task-slug}.md`
 
 #### 4.3 Record Decisions (if needed)
 
 Record decisions made during brainstorming:
-- Feature-related → `active/F{n}-*.md` (Decisions Made section)
+- Feature-related → `active/F-{slug}.md` (Decisions Made section)
 - Sprint-wide → `refs/decisions/_sprint.md`
 
 #### 4.4 Update HANDOFF.md (if needed)
@@ -236,7 +236,7 @@ Add to `## Context for Next Session`:
 ```markdown
 **Planning complete:**
 - [Item name] detailed design complete
-- Plan document: refs/plans/F{n}-T{m}-[name].md
+- Plan document: refs/plans/F-{feature-slug}-T-{task-slug}.md
 - Work from Plan file - no Plan Mode needed
 ```
 
@@ -249,7 +249,7 @@ Add to `## Context for Next Session`:
 
 Updated files:
 - BACKLOG.md - Sub-tasks added
-- refs/plans/F{n}-T{m}-[name].md - Detailed plan
+- refs/plans/F-{feature-slug}-T-{task-slug}.md - Detailed plan
 
 Call @INSTRUCTION.md in your next session to start working on the designed item.
 ```
@@ -278,11 +278,11 @@ Call @INSTRUCTION.md in your next session to start working on the designed item.
 
 ## Example Usage
 
-**User:** "Plan task T1.2"
+**User:** "Plan task T-login-api"
 
 **Claude:**
 1. Understand sprint context (read BACKLOG.md, HANDOFF.md)
-2. Read T1.2 related files (refs/designs/, refs/plans/)
+2. Read T-login-api related files (refs/designs/, refs/plans/)
 3. Start brainstorming (Q&A iteration)
 4. Validate understanding section by section
 5. Enter Plan Mode, write plan

@@ -53,9 +53,9 @@ Leverage information already in the session. Read additional files as needed:
 
 | Source | Purpose |
 |--------|---------|
-| `active/F{n}-*.md` | Work notes, modified files list |
-| `refs/plans/F{n}-T{m}-*.md` | Original plan (intent vs. outcome) |
-| `refs/designs/F{n}-*.md` | Feature design (goals, type) |
+| `active/F-{slug}.md` | Work notes, modified files list |
+| `refs/plans/F-{feature-slug}-T-*.md` | Original plan (intent vs. outcome) |
+| `refs/designs/F-{slug}.md` | Feature design (goals, type) |
 
 **Determine task type** from the Feature's Design doc:
 - `coding` | `design` | `docs` | `general`
@@ -100,7 +100,7 @@ Leverage information already in the session. Read additional files as needed:
 **Report format:**
 
 ```
-## Review: T{n}.{m}: [Task name]
+## Review: T-{task-slug}: [Task name]
 
 ### Summary
 [1-2 sentence summary of what was done and overall quality assessment]
@@ -130,7 +130,7 @@ Which items would you like to fix before marking done?
 
 **If no issues found:**
 ```
-## Review: T{n}.{m}: [Task name]
+## Review: T-{task-slug}: [Task name]
 
 ### Summary
 [Summary of work done]
@@ -153,7 +153,7 @@ Entering Plan Mode.
 **Plan file content:**
 
 ```markdown
-# T{n}.{m}: [Task Name] - Review Improvements
+# T-{task-slug}: [Task Name] - Review Improvements
 
 > Execute improvements and mark task as done.
 
@@ -162,16 +162,16 @@ Entering Plan Mode.
 | Key | Value |
 |-----|-------|
 | Sprint | `{sprint-absolute-path}` |
-| Feature | `F{n}: {feature-name}` |
-| Task | `T{n}.{m}: {task-name}` |
+| Feature | `F-{feature-slug}: {feature-name}` |
+| Task | `T-{task-slug}: {task-name}` |
 
 **Required reads after context clear:**
 1. `{sprint-path}/BACKLOG.md`
 2. `{sprint-path}/HANDOFF.md`
-3. `{sprint-path}/active/F{n}-*.md`
+3. `{sprint-path}/active/F-{slug}.md`
 
 ## Review Summary
-- Reviewed: T{n}.{m}: [task name]
+- Reviewed: T-{task-slug}: [task name]
 - Critical: N, Improvement: N, Minor: N
 - Selected for improvement: [list]
 
@@ -189,12 +189,12 @@ Entering Plan Mode.
 
 1. Verify all improvements are applied
 2. Run tests (if coding type)
-3. Update BACKLOG.md: `[ ] T{n}.{m}: [name] \`review\`` → `[x] T{n}.{m}: [name] \`done\``
+3. Update BACKLOG.md: `[ ] T-{task-slug}: [name] \`review\`` → `[x] T-{task-slug}: [name] \`done\``
 4. Update HANDOFF.md: Move from In Review → Recently Done
-5. Update `active/F{n}-*.md` with review completion notes
+5. Update `active/F-{slug}.md` with review completion notes
 6. Check if Feature is now complete (all Tasks done)
    - If yes: mark Feature `[x]` in BACKLOG.md
-   - Archive: move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`, add Lessons Learned
+   - Archive: move `active/F-{slug}.md` → `refs/archive/F-{slug}.md`, add Lessons Learned
    - Clean up BACKLOG.md: remove Feature section, add one-line to Done
 ```
 
@@ -218,29 +218,29 @@ Entering Plan Mode.
 
 ```markdown
 # Before
-- [ ] T1.2: Login API `review`
+- [ ] T-login-api: Login API `review`
 
 # After
-- [x] T1.2: Login API `done`
+- [x] T-login-api: Login API `done`
 ```
 
 If all Tasks in the Feature are `done`:
 ```markdown
-- [x] F1: User Authentication
+- [x] F-user-auth: User Authentication
 ```
 
 Then archive the Feature (see INSTRUCTION.md "Feature Context Management"):
-1. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`
+1. Move `active/F-{slug}.md` → `refs/archive/F-{slug}.md`
 2. Add **Lessons Learned** section to the archived file
 3. Finalize **Decisions Made** section
 4. Remove Feature section from BACKLOG.md, add one-line to Done:
-   `F1: Feature Name - completed YYYY-MM-DD`
+   `F-user-auth: Feature Name - completed YYYY-MM-DD`
 
 #### 7.2 Update HANDOFF.md
 
 Move task from **In Review** to **Recently Done**.
 
-#### 7.3 Update active/F{n}-*.md
+#### 7.3 Update active/F-{slug}.md
 
 Add review completion notes. (If Feature is done, this happens in the archived file instead.)
 
@@ -249,7 +249,7 @@ Add review completion notes. (If Feature is done, this happens in the archived f
 ### Step 8: Completion Report
 
 ```
-T{n}.{m}: [Task name] review complete.
+T-{task-slug}: [Task name] review complete.
 
 Review results:
 - 🔴 Critical: N items (N fixed)
@@ -263,7 +263,7 @@ Improvements applied:
 Updated files:
 - BACKLOG.md - Task marked done (Feature archived if complete)
 - HANDOFF.md - Moved to Recently Done
-- active/F{n}-*.md - Review notes added (moved to refs/archive/ if Feature complete)
+- active/F-{slug}.md - Review notes added (moved to refs/archive/ if Feature complete)
 ```
 
 ---

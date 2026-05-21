@@ -1,31 +1,31 @@
-# F2: Order Management - Active Context
+# F-order: Order Management - Active Context
 
 > Owner: #agent-1
 
 ## Current Status
 
-- **Task**: T2.2: Create Order API
+- **Task**: T-create-order: Create Order API
 - **Started**: 2024-01-28
 
 ## Progress
 
 ### Completed
-- [x] T2.1: Order Model & Migration
+- [x] T-order-model: Order Model & Migration
   - Order table created
   - OrderItem table created
   - Status: pending, paid, cancelled, refunded
 
 ### In Progress
-- [ ] T2.2: Create Order API
+- [ ] T-create-order: Create Order API
   - [x] POST /api/orders route
   - [x] Input validation
   - [ ] Transaction handling
   - [ ] Inventory check logic
 
 ### Remaining
-- [ ] T2.3: Get Order API
-- [ ] T2.4: Cancel Order API (blocked - waiting for T1.3)
-- [ ] T2.5: Review & Refactor
+- [ ] T-get-order: Get Order API
+- [ ] T-cancel-order: Cancel Order API (blocked - waiting for T-webhook-handler)
+- [ ] T-review-order: Review & Refactor
 
 ## Decisions
 
@@ -40,12 +40,12 @@
 ### Agreed
 - Order ID format: UUID v4 (done)
 - Payment integration flow:
-  1. T2.2: Create Order (status: pending)
-  2. T1.2: Create PaymentIntent (orderId in metadata)
-  3. T1.3: Webhook updates Order status → paid
+  1. T-create-order: Create Order (status: pending)
+  2. T-payment-intent: Create PaymentIntent (orderId in metadata)
+  3. T-webhook-handler: Webhook updates Order status → paid
 
 ### Pending
-- T2.4 (Cancel Order) needs T1.3 (Webhook) complete
+- T-cancel-order (Cancel Order) needs T-webhook-handler (Webhook) complete
 - Waiting for Refund logic interface
 
 ## Files
@@ -71,7 +71,7 @@ pending ──► paid ──► shipped ──► delivered
  cancelled
 ```
 
-### T2.4 Blocked Reason
+### T-cancel-order Blocked Reason
 - Order cancellation requires payment refund
-- Refund API needed from Stripe Webhook (T1.3)
-- Unblocks when #danny completes T1.3
+- Refund API needed from Stripe Webhook (T-webhook-handler)
+- Unblocks when #danny completes T-webhook-handler

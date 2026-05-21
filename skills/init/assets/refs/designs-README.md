@@ -4,11 +4,11 @@ Design documents for each feature.
 
 ## Naming Convention
 
-`F{n}-{feature-name}.md`
+`F-{feature-slug}.md`
 
 Examples:
-- `F1-user-auth.md`
-- `F2-payment-system.md`
+- `F-user-auth.md`
+- `F-payment-system.md`
 
 ## When to Create
 

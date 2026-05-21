@@ -77,17 +77,17 @@ Claude: [Entering Plan Mode]
 
 Proposed structure:
 
-### F1: Authentication
+### F-auth: Authentication
 > User auth (login, signup, password reset)
 > Social login excluded
 
 **Type**: coding
 
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Password Reset API `backlog`
-- [ ] T1.4: Auth Integration Tests `backlog`
-- [ ] T1.5: Review & Refactor F1 `backlog`
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-password-reset: Password Reset API `backlog`
+- [ ] T-auth-integration-tests: Auth Integration Tests `backlog`
+- [ ] T-review-auth: Review & Refactor `backlog`
 
 Proceed?
 
@@ -99,7 +99,7 @@ Create design doc? (2+ tasks → recommended)
 
 User: Yes
 
-Claude: Created refs/designs/F1-authentication.md
+Claude: Created refs/designs/F-auth.md
 ```
 
 ### Step 3: Work on Tasks
@@ -112,31 +112,31 @@ Claude: Starting session as #rook.
 [Loading context]
 
 Current state:
-- F1: Authentication (5 tasks)
-  - T1.1: Login API `backlog` ← Top priority
-  - T1.2: Signup API `backlog`
+- F-auth: Authentication (5 tasks)
+  - T-login-api: Login API `backlog` ← Top priority
+  - T-signup-api: Signup API `backlog`
   - ...
 
-Claiming and starting T1.1: Login API.
+Claiming and starting T-login-api: Login API.
 
-[Updating BACKLOG.md: T1.1 → #rook `in_progress`]
+[Updating BACKLOG.md: T-login-api → #rook `in_progress`]
 [Updating HANDOFF.md: Adding to In Progress]
-[Creating active/F1-authentication.md]
+[Creating active/F-auth.md]
 
 [Entering Plan Mode - Login API implementation plan]
 
 ## Login API Implementation Plan
 
-### T1.1.1: Define Schema
+### T-login-api.schema: Define Schema
 - POST /api/auth/login
 - Request: { email, password }
 - Response: { accessToken, refreshToken, user }
 
-### T1.1.2: Implement Endpoint
+### T-login-api.endpoint: Implement Endpoint
 - JWT token generation
 - Password verification (bcrypt)
 
-### T1.1.3: Add Validation
+### T-login-api.validation: Add Validation
 - Email format validation
 - Password minimum requirements
 
@@ -146,7 +146,7 @@ User: Go ahead
 
 [Implementation in progress...]
 
-Claude: Completed T1.1: Login API.
+Claude: Completed T-login-api: Login API.
 
 Completed:
 - POST /api/auth/login endpoint
@@ -160,9 +160,9 @@ Updated files:
 - src/validators/auth.ts
 
 Sprint file updates:
-- BACKLOG.md: T1.1 → `done`
+- BACKLOG.md: T-login-api → `done`
 - HANDOFF.md: Moved to Recently Done
-- active/F1-authentication.md: Progress recorded
+- active/F-auth.md: Progress recorded
 
 Ending session. For next Task:
 @sprints/user-management-api/INSTRUCTION.md #rook
@@ -178,12 +178,12 @@ Claude: Starting session as #rook.
 [Loading context]
 
 Current state:
-- F1: Authentication
-  - [x] T1.1: Login API `done`
-  - T1.2: Signup API `backlog` ← Next
+- F-auth: Authentication
+  - [x] T-login-api: Login API `done`
+  - T-signup-api: Signup API `backlog` ← Next
   - ...
 
-Starting T1.2: Signup API.
+Starting T-signup-api: Signup API.
 ```
 
 ---
@@ -221,15 +221,15 @@ User: 2 (docs)
 
 Claude: [Plan Mode]
 
-### F1: API Documentation
+### F-api-docs: API Documentation
 > Auth, User, Order API documentation
 
 **Type**: docs
 
-- [ ] T1.1: Auth API Documentation `backlog`
-- [ ] T1.2: User API Documentation `backlog`
-- [ ] T1.3: Order API Documentation `backlog`
-- [ ] T1.4: Review & Refactor F1 `backlog`
+- [ ] T-auth-api-docs: Auth API Documentation `backlog`
+- [ ] T-user-api-docs: User API Documentation `backlog`
+- [ ] T-order-api-docs: Order API Documentation `backlog`
+- [ ] T-review-api-docs: Review & Refactor `backlog`
 
 User: Looks good
 
@@ -241,7 +241,7 @@ Claude: Added to BACKLOG.md.
 ```
 User: @sprints/api-documentation/INSTRUCTION.md #danny
 
-Claude: Starting T1.1: Auth API Documentation.
+Claude: Starting T-auth-api-docs: Auth API Documentation.
 
 [Writing documentation...]
 
@@ -271,13 +271,13 @@ User: @sprints/my-sprint/INSTRUCTION.md #pixel
 ### BACKLOG.md State
 
 ```markdown
-### F1: Authentication
-- [ ] T1.1: Login API #rook `in_progress`
-- [ ] T1.2: Signup API `backlog`
+### F-auth: Authentication
+- [ ] T-login-api: Login API #rook `in_progress`
+- [ ] T-signup-api: Signup API `backlog`
 
-### F2: User Profile
-- [ ] T2.1: Get Profile API #pixel `in_progress`
-- [ ] T2.2: Update Profile API `backlog`
+### F-user-profile: User Profile
+- [ ] T-get-profile: Get Profile API #pixel `in_progress`
+- [ ] T-update-profile: Update Profile API `backlog`
 ```
 
 ### HANDOFF.md State
@@ -287,18 +287,18 @@ User: @sprints/my-sprint/INSTRUCTION.md #pixel
 
 | Feature | Task | Persona | Started | Notes |
 |---------|------|---------|---------|-------|
-| F1 | T1.1: Login API | #rook | 2024-01-28 | JWT impl |
-| F2 | T2.1: Get Profile API | #pixel | 2024-01-28 | Basic query |
+| F-auth | T-login-api: Login API | #rook | 2024-01-28 | JWT impl |
+| F-user-profile | T-get-profile: Get Profile API | #pixel | 2024-01-28 | Basic query |
 ```
 
 ### Conflict Prevention
 
 ```
-# #rook modifies only F1 related
-active/F1-authentication.md
+# #rook modifies only F-auth related
+active/F-auth.md
 
-# #pixel modifies only F2 related
-active/F2-user-profile.md
+# #pixel modifies only F-user-profile related
+active/F-user-profile.md
 
 # BACKLOG.md: each modifies only their assigned Task
 # HANDOFF.md: each modifies only their row
@@ -311,9 +311,9 @@ active/F2-user-profile.md
 ### Review After Task Completion
 
 ```
-User: /sprint:review-backlog T1.1
+User: /sprint:review-backlog T-login-api
 
-Claude: Starting review of T1.1: Login API.
+Claude: Starting review of T-login-api: Login API.
 
 Type: coding
 Checklist: coding/checklist.md
@@ -345,10 +345,10 @@ Claude: [Plan Mode]
 
 ### Improvement Tasks
 
-- [ ] T1.6: Fix review issues (T1.1) `backlog`
-  - [ ] T1.6.1: Fix SQL injection vulnerability
-  - [ ] T1.6.2: Improve error handling
-  - [ ] T1.6.3: Add login attempt logging
+- [ ] T-fix-login-api: Fix review issues (T-login-api) `backlog`
+  - [ ] T-fix-login-api.sql-injection: Fix SQL injection vulnerability
+  - [ ] T-fix-login-api.error-handling: Improve error handling
+  - [ ] T-fix-login-api.logging: Add login attempt logging
 
 Added to BACKLOG.md.
 ```
@@ -372,19 +372,19 @@ User: Card payment, refunds, payment history
 
 Claude: [Plan Mode]
 
-### F3: Payment System
+### F-payment: Payment System
 > Card payment, refunds, payment history
 
 **Type**: coding
 
-- [ ] T3.1: Payment Gateway Integration `backlog`
-- [ ] T3.2: Process Payment API `backlog`
-- [ ] T3.3: Refund API `backlog`
-- [ ] T3.4: Payment History API `backlog`
-- [ ] T3.5: Payment Integration Tests `backlog`
-- [ ] T3.6: Review & Refactor F3 `backlog`
+- [ ] T-payment-gateway: Payment Gateway Integration `backlog`
+- [ ] T-process-payment: Process Payment API `backlog`
+- [ ] T-refund-api: Refund API `backlog`
+- [ ] T-payment-history: Payment History API `backlog`
+- [ ] T-payment-integration-tests: Payment Integration Tests `backlog`
+- [ ] T-review-payment: Review & Refactor `backlog`
 
-T3.1 looks complex. Want to design it in detail first?
+T-payment-gateway looks complex. Want to design it in detail first?
 
 User: Yes
 ```
@@ -392,9 +392,9 @@ User: Yes
 ### Detail Design with `/sprint:plan-backlog`
 
 ```
-User: /sprint:plan-backlog T3.1
+User: /sprint:plan-backlog T-payment-gateway
 
-Claude: Starting design for T3.1: Payment Gateway Integration.
+Claude: Starting design for T-payment-gateway: Payment Gateway Integration.
 
 Which payment gateway?
 1. Stripe (recommended) - Great docs, SDK provided
@@ -415,15 +415,15 @@ Claude: [Verifying understanding...]
 
 [Plan Mode]
 
-### T3.1: Payment Gateway Integration
+### T-payment-gateway: Payment Gateway Integration
 
-- [ ] T3.1.1: Setup Stripe SDK
-- [ ] T3.1.2: Create Payment Intent Wrapper
-- [ ] T3.1.3: Webhook Handler Setup
-- [ ] T3.1.4: Test with Stripe Test Mode
+- [ ] T-payment-gateway.stripe-sdk: Setup Stripe SDK
+- [ ] T-payment-gateway.payment-intent: Create Payment Intent Wrapper
+- [ ] T-payment-gateway.webhook: Webhook Handler Setup
+- [ ] T-payment-gateway.test-mode: Test with Stripe Test Mode
 
 Updated BACKLOG.md.
-Created refs/plans/F3-T1-payment-gateway.md.
+Created refs/plans/F-payment-T-payment-gateway.md.
 ```
 
 ---
@@ -435,45 +435,45 @@ Created refs/plans/F3-T1-payment-gateway.md.
 ```
 User: @sprints/my-sprint/INSTRUCTION.md #danny
 
-Claude: Starting T2.3: Notification API.
+Claude: Starting T-notification-api: Notification API.
 
 [Working...]
 
-Issue found: T2.3 depends on T2.2 (User Preferences).
-Need to read user notification settings, but T2.2 is not complete.
+Issue found: T-notification-api depends on T-user-preferences (User Preferences).
+Need to read user notification settings, but T-user-preferences is not complete.
 
-Marking T2.3 as blocked.
+Marking T-notification-api as blocked.
 
 BACKLOG.md:
-- [ ] T2.3: Notification API `blocked` → depends on T2.2
+- [ ] T-notification-api: Notification API `blocked` → depends on T-user-preferences
 
 HANDOFF.md Blockers:
-| T2.3 | #danny | T2.2 incomplete | 2024-01-28 |
+| T-notification-api | #danny | T-user-preferences incomplete | 2024-01-28 |
 
 Work on something else?
-1. Start T2.2 first (recommended)
+1. Start T-user-preferences first (recommended)
 2. Pick Task from different Feature
 3. End session
 
 User: 1
 
-Claude: Starting T2.2: User Preferences API.
+Claude: Starting T-user-preferences: User Preferences API.
 ```
 
 ### Blocker Resolved
 
 ```
-Claude: Completed T2.2.
+Claude: Completed T-user-preferences.
 
-T2.3 blocker resolved.
+T-notification-api blocker resolved.
 
 BACKLOG.md:
-- [ ] T2.3: Notification API `backlog` (unblocked)
+- [ ] T-notification-api: Notification API `backlog` (unblocked)
 
-Removed T2.3 from HANDOFF.md Blockers.
+Removed T-notification-api from HANDOFF.md Blockers.
 
 Ending session.
-Start T2.3 in next session.
+Start T-notification-api in next session.
 ```
 
 ---
@@ -529,46 +529,46 @@ User assigns a Feature with multiple independent Tasks. The agent uses agent tea
 ### Step 1: Feature Assignment
 
 ```
-User: @sprints/my-sprint/INSTRUCTION.md #rook, work on Feature F1
+User: @sprints/my-sprint/INSTRUCTION.md #rook, work on Feature F-user-auth
 
 Claude: Starting session as #rook.
 
 [Loading context]
 
-F1: User Authentication (5 tasks)
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Password Reset API `backlog`
-- [ ] T1.4: Auth Integration Tests `backlog`
-- [ ] T1.5: Review & Refactor F1 `backlog`
+F-user-auth: User Authentication (5 tasks)
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-password-reset: Password Reset API `backlog`
+- [ ] T-auth-integration-tests: Auth Integration Tests `backlog`
+- [ ] T-review-user-auth: Review & Refactor `backlog`
 
-My assignment is Feature F1.
+My assignment is Feature F-user-auth.
 ```
 
 ### Step 2: Parallelism Assessment (Session Start Step 5)
 
 ```
-Claude: Assessing parallelism for F1...
+Claude: Assessing parallelism for F-user-auth...
 
 Dependency analysis:
-- T1.1 (Login), T1.2 (Signup), T1.3 (Password Reset) → independent of each other
-- T1.4 (Integration Tests) → depends on T1.1, T1.2, T1.3
-- T1.5 (Review) → depends on all above
+- T-login-api (Login), T-signup-api (Signup), T-password-reset (Password Reset) → independent of each other
+- T-auth-integration-tests (Integration Tests) → depends on the three above
+- T-review-user-auth (Review) → depends on all above
 
-T1.1, T1.2, T1.3 are independent — agent teams would improve speed.
+T-login-api, T-signup-api, T-password-reset are independent — agent teams would improve speed.
 
 Proposed team:
 
 | Agent | Persona | Role | Tasks |
 |-------|---------|------|-------|
-| lead (me) | #rook | Login + coordination | T1.1 |
-| worker-1 | #pixel | Signup | T1.2 |
-| worker-2 | #dash | Password Reset | T1.3 |
+| lead (me) | #rook | Login + coordination | T-login-api |
+| worker-1 | #pixel | Signup | T-signup-api |
+| worker-2 | #dash | Password Reset | T-password-reset |
 
 Execution plan:
-1. Parallel phase: T1.1, T1.2, T1.3 simultaneously
-2. Sequential phase: T1.4 (integration tests) — lead handles after merge
-3. Completion: T1.5 (review) — lead handles
+1. Parallel phase: T-login-api, T-signup-api, T-password-reset simultaneously
+2. Sequential phase: T-auth-integration-tests — lead handles after merge
+3. Completion: T-review-user-auth (review) — lead handles
 
 Create agent team?
 
@@ -578,25 +578,25 @@ User: Yes
 ### Step 3: Team Execution
 
 ```
-Claude: [TeamCreate: f1-auth]
-[TaskCreate: T1.1, T1.2, T1.3]
+Claude: [TeamCreate: feature-F-user-auth]
+[TaskCreate: T-login-api, T-signup-api, T-password-reset]
 [Spawning #pixel (worker-1), #dash (worker-2)]
-[Assigning T1.2 → #pixel, T1.3 → #dash]
+[Assigning T-signup-api → #pixel, T-password-reset → #dash]
 
-Starting T1.1: Login API...
+Starting T-login-api: Login API...
 
-[Working on T1.1 while teammates work in parallel]
+[Working on T-login-api while teammates work in parallel]
 ```
 
 ### Step 4: Teammate Completion
 
 ```
-#pixel → lead: T1.2 Signup API complete. Files: src/routes/signup.ts,
+#pixel → lead: T-signup-api Signup API complete. Files: src/routes/signup.ts,
   src/services/signup.ts. All validation implemented.
 
-Claude: Reviewing #pixel's work on T1.2...
-[Updates BACKLOG.md: T1.2 → review]
-[Updates active/F1-authentication.md with T1.2 progress]
+Claude: Reviewing #pixel's work on T-signup-api...
+[Updates BACKLOG.md: T-signup-api → review]
+[Updates active/F-user-auth.md with T-signup-api progress]
 
 [SendMessage to #pixel: shutdown_request]
 ```
@@ -604,20 +604,20 @@ Claude: Reviewing #pixel's work on T1.2...
 ### Step 5: Sequential Phase + Completion
 
 ```
-Claude: T1.1, T1.2, T1.3 all complete. Teammates shut down.
+Claude: T-login-api, T-signup-api, T-password-reset all complete. Teammates shut down.
 
-Starting T1.4: Auth Integration Tests...
+Starting T-auth-integration-tests: Auth Integration Tests...
 
 [Working on integration tests...]
 
-T1.4 complete. All tasks in F1 verified.
+T-auth-integration-tests complete. All tasks in F-user-auth verified.
 
 Sprint file updates:
-- BACKLOG.md: T1.1-T1.4 → `review`
-- HANDOFF.md: F1 moved to In Review
-- active/F1-authentication.md: Full completion notes
+- BACKLOG.md: T-login-api, T-signup-api, T-password-reset, T-auth-integration-tests → `review`
+- HANDOFF.md: F-user-auth moved to In Review
+- active/F-user-auth.md: Full completion notes
 
-Feature F1: User Authentication is ready for review.
+Feature F-user-auth: User Authentication is ready for review.
 
 Ending session.
 ```
@@ -691,22 +691,22 @@ Worktree for this Feature:
 User: 1
 
 Claude: Suggested:
-- Branch: feature/F1-payment
-- Worktree: ../payment-api-worktrees/F1-payment/
+- Branch: feature/F-payment
+- Worktree: ../payment-api-worktrees/F-payment/
 
 User: OK
 
-### F1: Payment Processing
+### F-payment: Payment Processing
 > Card payment and refund handling
 
-**Branch**: feature/F1-payment
-**Worktree**: /Users/.../payment-api-worktrees/F1-payment/
+**Branch**: feature/F-payment
+**Worktree**: /Users/.../payment-api-worktrees/F-payment/
 
-- [ ] T1.1: Payment Gateway Setup `backlog`
-- [ ] T1.2: Process Payment API `backlog`
-- [ ] T1.3: Refund API `backlog`
-- [ ] T1.4: Review & Refactor F1 `backlog`
-- [ ] T1.5: Merge feature/F1-payment and clean up worktree `backlog`
+- [ ] T-payment-gateway-setup: Payment Gateway Setup `backlog`
+- [ ] T-process-payment: Process Payment API `backlog`
+- [ ] T-refund-api: Refund API `backlog`
+- [ ] T-review-payment: Review & Refactor `backlog`
+- [ ] T-merge-payment: Merge feature/F-payment and clean up worktree `backlog`
 
 Claude: Worktree created. Feature added to BACKLOG.md.
 ```
@@ -721,11 +721,11 @@ Claude: Starting session as #rook.
 [Sprint Root: /Users/.../sprints/payment-api/]
 [Reading BACKLOG.md, HANDOFF.md from Sprint Root]
 
-F1: Payment Processing
-- Worktree: /Users/.../payment-api-worktrees/F1-payment/
-- T1.1: Payment Gateway Setup ← Top priority
+F-payment: Payment Processing
+- Worktree: /Users/.../payment-api-worktrees/F-payment/
+- T-payment-gateway-setup: Payment Gateway Setup ← Top priority
 
-Claiming T1.1. Working in worktree: /Users/.../payment-api-worktrees/F1-payment/
+Claiming T-payment-gateway-setup. Working in worktree: /Users/.../payment-api-worktrees/F-payment/
 
 [Code work in worktree, sprint updates in Sprint Root]
 ```
@@ -737,16 +737,16 @@ User: @sprints/payment-api/INSTRUCTION.md #rook
 
 Claude: Starting session as #rook.
 
-T1.5: Merge feature/F1-payment and clean up worktree
+T-merge-payment: Merge feature/F-payment and clean up worktree
 
 Working from main worktree (Sprint Root):
 
 Steps:
-1. git merge feature/F1-payment  ← from main worktree
-2. git worktree remove /Users/.../payment-api-worktrees/F1-payment/
-3. git branch -d feature/F1-payment
+1. git merge feature/F-payment  ← from main worktree
+2. git worktree remove /Users/.../payment-api-worktrees/F-payment/
+3. git branch -d feature/F-payment
 
 [Executing merge...]
 
-Merge complete. Worktree removed. F1 done.
+Merge complete. Worktree removed. F-payment done.
 ```

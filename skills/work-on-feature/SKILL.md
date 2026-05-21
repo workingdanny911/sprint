@@ -31,10 +31,10 @@ This skill uses **Agent Teams** (TeamCreate) instead of standalone Sub-Agents.
 
 ```
 Lead (you)
-├── TeamCreate("feature-F{n}")     ← creates team + shared task list
-├── Agent(team_name, name)         ← spawns teammates into the team
-├── SendMessage(to: name)          ← bidirectional communication
-└── TaskCreate/TaskUpdate          ← shared task board coordination
+├── TeamCreate("feature-F-{slug}")  ← creates team + shared task list
+├── Agent(team_name, name)          ← spawns teammates into the team
+├── SendMessage(to: name)           ← bidirectional communication
+└── TaskCreate/TaskUpdate           ← shared task board coordination
 ```
 
 **Why Agent Teams:**
@@ -54,11 +54,11 @@ Lead (you)
 | File | Purpose |
 |------|---------|
 | `BACKLOG.md` | Feature's Task list, statuses, dependencies |
-| `refs/designs/F{n}-*.md` | Feature design (goals, type, scope) |
-| `refs/plans/F{n}-T{m}-*.md` | Task plans (if exist) |
+| `refs/designs/F-{slug}.md` | Feature design (goals, type, scope) |
+| `refs/plans/F-{feature-slug}-T-*.md` | Task plans (if exist) |
 | `refs/lessons/*.md` | Existing lessons for Worker prompts |
 | `personas/*.md` | All persona files (for matching) |
-| `active/F{n}-*.md` | Feature context (if exists) |
+| `active/F-{slug}.md` | Feature context (if exists) |
 
 **Parse Feature Tasks:**
 - Extract all Tasks under the target Feature
@@ -74,7 +74,7 @@ Check Task statuses for resume scenario:
 | `backlog` | Normal execution |
 | `in_progress` | Reset to `backlog`, rework from start |
 | `review` | Skip to Verifier Agent (work already done) |
-| `blocked` | **Stop immediately.** Report: "T{n}.{m} is blocked. Resolve and re-run." |
+| `blocked` | **Stop immediately.** Report: "T-{task-slug} is blocked. Resolve and re-run." |
 
 ---
 
@@ -84,9 +84,9 @@ Ask the user:
 
 ```
 This Feature has N Tasks:
-- T{n}.1: ...
-- T{n}.2: ...
-- T{n}.3: Review & Refactor F{n}
+- T-{task-slug}: ...
+- T-{another-slug}: ...
+- T-review-{feature-slug}: Review & Refactor {Feature Name}
 
 Would you like a detailed explanation before proceeding?
 1. Yes → /explain briefing
@@ -120,7 +120,7 @@ R&R Task always uses `thorn`.
 
 #### 3b: Dependency Analysis
 
-For Tasks with plans (`refs/plans/F{n}-T{m}-*.md`):
+For Tasks with plans (`refs/plans/F-{feature-slug}-T-*.md`):
 1. Read "Files to Modify" section
 2. Check file overlap between Tasks
 3. Group into batches:
@@ -139,24 +139,24 @@ For Tasks without plans: always sequential.
 #### 3c: Present Execution Plan
 
 ```
-## Execution Plan for F{n}: {Feature Name}
+## Execution Plan for F-{feature-slug}: {Feature Name}
 
-**Team**: feature-F{n}
+**Team**: feature-F-{feature-slug}
 **Model**: opus (all teammates)
 
 **Batch 1** (parallel)
 | Task | Teammate | Persona | Type | Plan |
 |------|----------|---------|------|------|
-| T{n}.1: {name} | worker-T{n}.1 | {persona} | {type} | {plan path or "none"} |
-| T{n}.2: {name} | worker-T{n}.2 | {persona} | {type} | {plan path or "none"} |
+| T-{task-slug}: {name} | worker-T-{task-slug} | {persona} | {type} | {plan path or "none"} |
+| T-{another-slug}: {name} | worker-T-{another-slug} | {persona} | {type} | {plan path or "none"} |
 
 **Batch 2** (after Batch 1)
 | Task | Teammate | Persona | Type | Plan |
 |------|----------|---------|------|------|
-| T{n}.3: {name} | worker-T{n}.3 | {persona} | {type} | {plan path or "none"} |
+| T-{third-slug}: {name} | worker-T-{third-slug} | {persona} | {type} | {plan path or "none"} |
 
-**Verifier**: verifier-F{n} (thorn, spawned per verification cycle)
-**Review & Refactor**: reviewer-F{n} (thorn)
+**Verifier**: verifier-T-{task-slug} (thorn, spawned per verification cycle)
+**Review & Refactor**: reviewer-F-{feature-slug} (thorn)
 
 ---
 Proceed? You can modify persona assignments or batch grouping.
@@ -175,8 +175,8 @@ Proceed? You can modify persona assignments or batch grouping.
 
 ```
 TeamCreate({
-  team_name: "feature-F{n}",
-  description: "Feature F{n}: {feature name} execution team"
+  team_name: "feature-F-{feature-slug}",
+  description: "Feature F-{feature-slug}: {feature name} execution team"
 })
 ```
 
@@ -186,7 +186,7 @@ Create tasks in the shared task list for all planned work:
 
 ```
 TaskCreate({
-  title: "T{f}.{t}: {task name}",
+  title: "T-{task-slug}: {task name}",
   description: "Persona: {persona}, Type: {type}, Plan: {plan path or 'none'}",
   status: "not_started"
 })
@@ -202,7 +202,7 @@ Create tasks for:
 For each Task in the current batch:
 - Update BACKLOG.md: Task status → `in_progress`
 - Update HANDOFF.md: Add to In Progress table
-- Create/update `active/F{n}-*.md` if needed
+- Create/update `active/F-{slug}.md` if needed
 
 #### 4d: Spawn Worker Teammates
 
@@ -210,9 +210,9 @@ For each Task in the current batch, spawn a teammate into the team:
 
 ```
 Agent({
-  name: "worker-T{f}.{t}",
-  team_name: "feature-F{n}",
-  description: "Sprint Task T{f}.{t}",
+  name: "worker-T-{task-slug}",
+  team_name: "feature-F-{feature-slug}",
+  description: "Sprint Task T-{task-slug}",
   model: "opus",
   prompt: <see Worker Teammate Prompt below>,
   mode: "auto"
@@ -224,36 +224,36 @@ Agent({
 **Worker Teammate Prompt Construction:**
 
 ```
-You are {persona_name}, a teammate in the "feature-F{n}" Agent Team working on a sprint Task.
+You are {persona_name}, a teammate in the "feature-F-{feature-slug}" Agent Team working on a sprint Task.
 
 ## Your Persona
 {content of personas/{name}.md}
 
 ## Team Info
-- Team: feature-F{n}
-- Your name: worker-T{f}.{t}
+- Team: feature-F-{feature-slug}
+- Your name: worker-T-{task-slug}
 - Lead: The agent who spawned you (send messages via SendMessage)
 - You can message any teammate by name via SendMessage
 
 ## Task Assignment
-- Task: T{f}.{t}: {task name}
-- Feature: F{n}: {feature name}
+- Task: T-{task-slug}: {task name}
+- Feature: F-{feature-slug}: {feature name}
 - Type: {coding/docs/ideation/general}
 
 ## Context
-{content of active/F{n}-*.md}
+{content of active/F-{slug}.md}
 
 ## Feature Design
-{content of refs/designs/F{n}-*.md}
+{content of refs/designs/F-{slug}.md}
 
 ## Task Plan
-{content of refs/plans/F{n}-T{m}-*.md OR "No plan. Use Feature Design and Task description."}
+{content of refs/plans/F-{feature-slug}-T-*.md OR "No plan. Use Feature Design and Task description."}
 
 ## Lessons from Previous Tasks
-{content of refs/lessons/F{n}-lessons.md if exists, OR "No prior lessons."}
+{content of refs/lessons/F-{slug}-lessons.md if exists, OR "No prior lessons."}
 
 ## Instructions
-1. Check TaskList to find your assigned task and claim it via TaskUpdate (owner: "worker-T{f}.{t}", status: "in_progress")
+1. Check TaskList to find your assigned task and claim it via TaskUpdate (owner: "worker-T-{task-slug}", status: "in_progress")
 2. Execute the Task following your persona's style
 3. When implementation is complete, send a completion report to the lead via SendMessage:
    - The complete list of files you created or modified
@@ -283,8 +283,8 @@ You are {persona_name}, a teammate in the "feature-F{n}" Agent Team working on a
 
 ```
 SendMessage({
-  to: "worker-T{f}.{t}",
-  summary: "Run review-work on T{f}.{t}",
+  to: "worker-T-{task-slug}",
+  summary: "Run review-work on T-{task-slug}",
   message: "Implementation looks good. Now run /sprint:review-work on your work and send me the findings."
 })
 ```
@@ -295,8 +295,8 @@ SendMessage({
 
 ```
 SendMessage({
-  to: "worker-T{f}.{t}",
-  summary: "Fix all review items for T{f}.{t}",
+  to: "worker-T-{task-slug}",
+  summary: "Fix all review items for T-{task-slug}",
   message: "Fix all items: select 'all'. This includes 🔴 Critical, 🟡 Improvement, 🟢 Minor, and 💡 Suggestion.
   After fixing, send me the updated file list."
 })
@@ -310,9 +310,9 @@ Spawn a Verifier into the same team:
 
 ```
 Agent({
-  name: "verifier-T{f}.{t}",
-  team_name: "feature-F{n}",
-  description: "Verify Task T{f}.{t}",
+  name: "verifier-T-{task-slug}",
+  team_name: "feature-F-{feature-slug}",
+  description: "Verify Task T-{task-slug}",
   model: "opus",
   prompt: <see Verifier Teammate Prompt below>,
   mode: "auto"
@@ -322,20 +322,20 @@ Agent({
 **Verifier Teammate Prompt Construction:**
 
 ```
-You are Thorn, an uncompromising code reviewer and a teammate in the "feature-F{n}" Agent Team.
+You are Thorn, an uncompromising code reviewer and a teammate in the "feature-F-{feature-slug}" Agent Team.
 
 ## Your Persona
 {content of personas/thorn.md}
 
 ## Team Info
-- Team: feature-F{n}
-- Your name: verifier-T{f}.{t}
+- Team: feature-F-{feature-slug}
+- Your name: verifier-T-{task-slug}
 - Lead: The agent who spawned you (send messages via SendMessage)
-- Worker who wrote this code: worker-T{f}.{t}
+- Worker who wrote this code: worker-T-{task-slug}
 
 ## Verification Target
-- Task: T{f}.{t}: {task name}
-- Feature: F{n}: {feature name}
+- Task: T-{task-slug}: {task name}
+- Feature: F-{feature-slug}: {feature name}
 - Type: {coding/docs/ideation/general}
 
 ## Files to Verify
@@ -364,7 +364,7 @@ If you find issues:
 
 ### 4. Communicate
 - If you need clarification about intent, message the Worker directly:
-  SendMessage({ to: "worker-T{f}.{t}", message: "..." })
+  SendMessage({ to: "worker-T-{task-slug}", message: "..." })
 - The Worker can explain their design decisions — use this before making assumptions
 
 ### 5. Report
@@ -387,7 +387,7 @@ If you cannot fix an issue, clearly state why and mark as FAIL.
 **If PASS:**
 - Update BACKLOG.md: Task `[x]` `done`
 - Update HANDOFF.md: Move to Recently Done
-- Update `active/F{n}-*.md` with completion notes
+- Update `active/F-{slug}.md` with completion notes
 - TaskUpdate: mark verification task as completed
 - Continue to 4h
 
@@ -395,10 +395,10 @@ If you cannot fix an issue, clearly state why and mark as FAIL.
 - **Stop immediately.** Do not proceed to next Task.
 - Report to user:
   ```
-  ❌ T{f}.{t} verification failed — unfixable issues:
+  ❌ T-{task-slug} verification failed — unfixable issues:
   - {issue description}
 
-  Task remains in `in_progress`. Please resolve and re-run /sprint:work-on-feature F{n}.
+  Task remains in `in_progress`. Please resolve and re-run /sprint:work-on-feature F-{feature-slug}.
   ```
 
 #### 4h: Learning Loop
@@ -406,10 +406,10 @@ If you cannot fix an issue, clearly state why and mark as FAIL.
 After successful Task completion:
 
 1. Check Verifier's report for patterns (repeated issues across Tasks)
-2. If patterns found, append to `refs/lessons/F{n}-lessons.md`:
+2. If patterns found, append to `refs/lessons/F-{slug}-lessons.md`:
 
 ```markdown
-## Lesson from T{f}.{t} ({date})
+## Lesson from T-{task-slug} ({date})
 
 **Pattern**: {description of repeated issue}
 **Fix applied**: {what was done}
@@ -424,7 +424,7 @@ After a Worker's Task is fully done (verified + lessons recorded):
 
 ```
 SendMessage({
-  to: "worker-T{f}.{t}",
+  to: "worker-T-{task-slug}",
   message: { type: "shutdown_request" }
 })
 ```
@@ -433,7 +433,7 @@ Also shutdown the Verifier:
 
 ```
 SendMessage({
-  to: "verifier-T{f}.{t}",
+  to: "verifier-T-{task-slug}",
   message: { type: "shutdown_request" }
 })
 ```
@@ -443,7 +443,7 @@ SendMessage({
 One-line summary:
 
 ```
-✓ T{f}.{t} done ({persona}) — {N} self-review fixes, {M} verification fixes
+✓ T-{task-slug} done ({persona}) — {N} self-review fixes, {M} verification fixes
 ```
 
 #### 4k: Parallel Batch Completion
@@ -471,9 +471,9 @@ TaskUpdate: unblock R&R task
 
 ```
 Agent({
-  name: "reviewer-F{n}",
-  team_name: "feature-F{n}",
-  description: "Review & Refactor F{n}",
+  name: "reviewer-F-{feature-slug}",
+  team_name: "feature-F-{feature-slug}",
+  description: "Review & Refactor F-{feature-slug}",
   model: "opus",
   prompt: <see R&R Teammate Prompt below>,
   mode: "auto"
@@ -483,20 +483,20 @@ Agent({
 **R&R Teammate Prompt Construction:**
 
 ```
-You are Thorn, performing a comprehensive Feature audit as a teammate in the "feature-F{n}" Agent Team.
+You are Thorn, performing a comprehensive Feature audit as a teammate in the "feature-F-{feature-slug}" Agent Team.
 
 ## Your Persona
 {content of personas/thorn.md}
 
 ## Team Info
-- Team: feature-F{n}
-- Your name: reviewer-F{n}
+- Team: feature-F-{feature-slug}
+- Your name: reviewer-F-{feature-slug}
 - Lead: The agent who spawned you (send messages via SendMessage)
 
 ## Feature Under Review
-- Feature: F{n}: {feature name}
+- Feature: F-{feature-slug}: {feature name}
 - Type: {coding/docs/ideation/general}
-- Design: {content of refs/designs/F{n}-*.md}
+- Design: {content of refs/designs/F-{slug}.md}
 
 ## Completed Tasks
 {list of all Tasks and what they accomplished}
@@ -505,7 +505,7 @@ You are Thorn, performing a comprehensive Feature audit as a teammate in the "fe
 
 ### Run /sprint:review-backlog in immediate-fix mode
 
-1. Invoke /sprint:review-backlog targeting Feature F{n}
+1. Invoke /sprint:review-backlog targeting Feature F-{feature-slug}
 2. When the skill asks about mode, choose **immediate-fix mode**
 3. Apply the comprehensive checklist against the entire Feature
 4. For each issue found: fix it directly
@@ -533,16 +533,16 @@ Send these lessons to the lead via SendMessage.
 
 #### 5c: Process R&R Result
 
-1. Record lessons → `refs/lessons/F{n}-lessons.md` (Feature-level section)
+1. Record lessons → `refs/lessons/F-{slug}-lessons.md` (Feature-level section)
 2. Update BACKLOG.md: R&R Task → `review` (NOT `done`)
 3. Update HANDOFF.md: Move to In Review
-4. Update `active/F{n}-*.md` with R&R notes
+4. Update `active/F-{slug}.md` with R&R notes
 
 #### 5d: Shutdown R&R Teammate
 
 ```
 SendMessage({
-  to: "reviewer-F{n}",
+  to: "reviewer-F-{feature-slug}",
   message: { type: "shutdown_request" }
 })
 ```
@@ -565,17 +565,17 @@ SendMessage({
 #### 6b: Completion Report
 
 ```
-## Feature F{n}: {name} — Execution Complete
+## Feature F-{feature-slug}: {name} — Execution Complete
 
-**Team**: feature-F{n} (shutdown)
+**Team**: feature-F-{feature-slug} (shutdown)
 
 | Task | Teammate | Persona | Review Fixes | Verification Fixes | Status |
 |------|----------|---------|-------------|-------------------|--------|
-| T{n}.1 | worker-T{n}.1 | {persona} | {N} self-review | {M} | ✓ done |
-| T{n}.2 | worker-T{n}.2 | {persona} | {N} self-review | {M} | ✓ done |
-| T{n}.3 R&R | reviewer-F{n} | thorn | {N} | — | ⏳ review |
+| T-{task-slug} | worker-T-{task-slug} | {persona} | {N} self-review | {M} | ✓ done |
+| T-{another-slug} | worker-T-{another-slug} | {persona} | {N} self-review | {M} | ✓ done |
+| T-review-{feature-slug} R&R | reviewer-F-{feature-slug} | thorn | {N} | — | ⏳ review |
 
-**Lessons recorded**: refs/lessons/F{n}-lessons.md
+**Lessons recorded**: refs/lessons/F-{slug}-lessons.md
 
 R&R Task is in `review` status. Please verify and mark done when ready.
 ```
@@ -598,7 +598,7 @@ R&R Task is in `review` status. Please verify and mark done when ready.
 ```
 ❌ {Task ID} failed at {stage} — {reason summary}
 Task remains in current state. Resolve the issue and re-run:
-/sprint:work-on-feature F{n}
+/sprint:work-on-feature F-{feature-slug}
 ```
 
 **On failure cleanup:** Shutdown all teammates before stopping:

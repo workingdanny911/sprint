@@ -1,26 +1,26 @@
-# F1: User Authentication - Active Context
+# F-user-auth: User Authentication - Active Context
 
 > Real-time context for in-progress Feature
 
 ## Current Status
 
-- **Current Task**: T1.3: Token Refresh API
+- **Current Task**: T-token-refresh: Token Refresh API
 - **Agent**: #danny
 - **Started**: 2024-01-28
 
 ## Progress
 
 ### Completed
-- [x] T1.1: Login API - JWT token issuance implemented
-- [x] T1.2: Signup API - Email validation included
+- [x] T-login-api: Login API - JWT token issuance implemented
+- [x] T-signup-api: Signup API - Email validation included
 
 ### In Progress
-- [ ] T1.3: Token Refresh API
+- [ ] T-token-refresh: Token Refresh API
   - Refresh with Refresh Token when Access Token expires
   - Planning to implement Refresh Token rotation
 
 ### Remaining
-- [ ] T1.4: Review & Refactor F1
+- [ ] T-review-user-auth: Review & Refactor
 
 ## Decisions (This Session)
 
@@ -32,17 +32,17 @@
 
 ## Notes
 
-### T1.1 Completion Notes
+### T-login-api Completion Notes
 - POST /api/auth/login implemented
 - JWT issuance logic complete
 - Password verification (bcrypt)
 
-### T1.2 Completion Notes
+### T-signup-api Completion Notes
 - POST /api/auth/signup implemented
 - Email duplicate check
 - Password hashed storage
 
-### T1.3 In Progress
+### T-token-refresh In Progress
 - Implementing POST /api/auth/refresh
 - Writing Refresh Token validation logic
 - Next: Token rotation implementation

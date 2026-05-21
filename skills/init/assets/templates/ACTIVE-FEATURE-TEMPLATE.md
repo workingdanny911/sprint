@@ -1,4 +1,4 @@
-# F{n}: {Feature Name} - Active Context
+# F-{feature-slug}: {Feature Name} - Active Context
 
 > Working context for this feature. Move to `refs/archive/` when feature is done.
 
@@ -10,7 +10,7 @@
 - **Started**: YYYY-MM-DD
 - **Personas**: #rook, #pixel
 <!-- Worktree mode only: -->
-- **Branch**: feature/F{n}-{name}
+- **Branch**: feature/F-{feature-slug}
 - **Worktree**: /path/to/worktree/
 
 ---
@@ -25,7 +25,7 @@ What we know about this feature right now.
 
 | Task | Persona | Status | Notes |
 |------|---------|--------|-------|
-| T{n}.1 | #rook | implementing | |
+| T-login-api | #rook | implementing | |
 
 ---
 
@@ -63,8 +63,8 @@ What we know about this feature right now.
 
 ## Related Files
 
-- `refs/designs/F{n}-*.md` - Design doc
-- `refs/plans/F{n}-T{m}-*.md` - Task plans
+- `refs/designs/F-{feature-slug}.md` - Design doc
+- `refs/plans/F-{feature-slug}-{task-id}.md` - Task plans
 - `src/...` - Implementation files
 
 ---

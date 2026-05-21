@@ -1,4 +1,4 @@
-# F1: User Authentication - Decisions
+# F-user-auth: User Authentication - Decisions
 
 ## Decision Log
 

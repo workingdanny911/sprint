@@ -1,4 +1,4 @@
-# F{n}: {Feature Name} Design
+# F-{feature-slug}: {Feature Name} Design
 
 > Design document for this feature. Create before implementation starts.
 
@@ -34,7 +34,7 @@ How we will implement this feature.
 ### Dependencies
 
 **Internal** (other features):
-- F{x}: Reason
+- F-{other-slug}: Reason
 
 **External** (libraries, APIs):
 - Dependency: Reason
@@ -45,8 +45,8 @@ How we will implement this feature.
 
 High-level task breakdown (detailed in BACKLOG.md):
 
-1. T{n}.1: Task name
-2. T{n}.2: Task name
+1. T-login-api: Task name
+2. T-session-store: Task name
 
 ---
 

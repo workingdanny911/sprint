@@ -15,15 +15,15 @@
 
 ---
 
-## Numbering
+## Identifiers
 
 ```
-F{n}      - Feature number (F1, F2, F3...)
-T{f}.{t}  - Task: Feature f, Task t (T1.1, T1.2, T2.1...)
-T{f}.{t}.{s} - Sub-task (T1.1.1, T1.1.2...)
+F-{feature-slug}        - Feature (F-user-auth, F-user-profile...)
+T-{task-slug}           - Task: content-based, globally unique (T-login-api...)
+T-{task-slug}.{sub-slug} - Sub-task (T-login-api.schema...)
 ```
 
-Example: `T3.2.1` = Feature 3, Task 2, Sub-task 1
+Example: `T-login-api.schema` = the schema sub-task of the Login API task
 
 ---
 
@@ -51,30 +51,30 @@ backlog ──────► in_progress ──────► review ───
 
 ## Features
 
-### F1: User Authentication
+### F-user-auth: User Authentication
 > User authentication API (login, signup, token refresh)
 
-**Design**: [refs/designs/F1-user-auth.md](refs/designs/F1-user-auth.md)
-**Context**: [active/F1-user-auth.md](active/F1-user-auth.md)
+**Design**: [refs/designs/F-user-auth.md](refs/designs/F-user-auth.md)
+**Context**: [active/F-user-auth.md](active/F-user-auth.md)
 
-- [x] T1.1: Login API `done`
-  - [x] T1.1.1: Define request/response schema
-  - [x] T1.1.2: Implement endpoint
-  - [x] T1.1.3: Add validation
-- [x] T1.2: Signup API `done`
-- [ ] T1.3: Token Refresh API #danny `in_progress`
-- [ ] T1.4: Review & Refactor F1 `backlog`
+- [x] T-login-api: Login API `done`
+  - [x] T-login-api.schema: Define request/response schema
+  - [x] T-login-api.endpoint: Implement endpoint
+  - [x] T-login-api.validation: Add validation
+- [x] T-signup-api: Signup API `done`
+- [ ] T-token-refresh: Token Refresh API #danny `in_progress`
+- [ ] T-review-user-auth: Review & Refactor `backlog`
 
 ---
 
-### F2: User Profile
+### F-user-profile: User Profile
 > User profile management (view, update)
 
-**Design**: [refs/designs/F2-user-profile.md](refs/designs/F2-user-profile.md)
+**Design**: [refs/designs/F-user-profile.md](refs/designs/F-user-profile.md)
 
-- [ ] T2.1: Get Profile API `backlog`
-- [ ] T2.2: Update Profile API `backlog`
-- [ ] T2.3: Review & Refactor F2 `backlog`
+- [ ] T-get-profile: Get Profile API `backlog`
+- [ ] T-update-profile: Update Profile API `backlog`
+- [ ] T-review-user-profile: Review & Refactor `backlog`
 
 ---
 
@@ -90,6 +90,6 @@ backlog ──────► in_progress ──────► review ───
 
 When a Feature is `done`:
 
-1. Move full Feature section → `refs/archive/F{n}-name.md`
+1. Move full Feature section → `refs/archive/F-{slug}.md`
 2. Leave one-line summary here:
-   - `F1: Feature Name` - completed YYYY-MM-DD
+   - `F-{slug}: Feature Name` - completed YYYY-MM-DD

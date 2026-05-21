@@ -12,7 +12,7 @@ Sprint-wide lessons learned.
 
 **Sprint file**: Only for lessons that apply across multiple features or the entire sprint.
 
-**Feature lessons**: Added directly to the active context file (`active/F{n}-*.md`) when the feature completes. The file then moves to `refs/archive/`, preserving lessons alongside decisions and context. No separate feature lesson files needed.
+**Feature lessons**: Added directly to the active context file (`active/F-{slug}.md`) when the feature completes. The file then moves to `refs/archive/`, preserving lessons alongside decisions and context. No separate feature lesson files needed.
 
 ### Lessons Learned Template (added to archived active file)
 

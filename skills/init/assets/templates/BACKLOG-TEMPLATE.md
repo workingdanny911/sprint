@@ -15,15 +15,19 @@
 
 ---
 
-## Numbering
+## Identifiers
 
 ```
-F{n}      - Feature number (F1, F2, F3...)
-T{f}.{t}  - Task: Feature f, Task t (T1.1, T1.2, T2.1...)
-T{f}.{t}.{s} - Sub-task (T1.1.1, T1.1.2...)
+F-{feature-slug}          - Feature, identified by a kebab-case slug (F-user-auth, F-payment)
+T-{task-slug}             - Task, an independent kebab-case slug (no Feature prefix): T-login-api, T-checkout-ui
+T-{task-slug}.{sub-slug}  - Sub-task, one level: T-login-api.schema, T-login-api.handler
 ```
 
-Example: `T3.2.1` = Feature 3, Task 2, Sub-task 1
+- **Feature slug**: kebab-case of the Feature name. Must be unique within the sprint.
+- **Task slug**: kebab-case derived from the Task's content, **globally unique across the sprint** (no Feature prefix). No sequence numbers.
+- **Sub-task**: append `.{sub-slug}` (one level only).
+
+Example: `T-login-api.schema` = the `schema` sub-task of Task `T-login-api`.
 
 ---
 
@@ -55,43 +59,43 @@ backlog ──────► in_progress ──────► review ───
 
 <!-- Example structure:
 
-### [URGENT] F1: Feature Name
+### [URGENT] F-user-auth: User Authentication
 > Brief description
 
-**Design**: [refs/designs/F1-feature-name.md](refs/designs/F1-feature-name.md)
-**Context**: [active/F1-feature-name.md](active/F1-feature-name.md) (when in progress)
+**Design**: [refs/designs/F-user-auth.md](refs/designs/F-user-auth.md)
+**Context**: [active/F-user-auth.md](active/F-user-auth.md) (when in progress)
 
-- [ ] T1.1: Task name `backlog`
-  - [ ] T1.1.1: Sub-task
-  - [ ] T1.1.2: Sub-task
-- [ ] T1.2: Task name #rook `in_progress`
-- [x] T1.3: Task name `done`
+- [ ] T-login-api: Task name `backlog`
+  - [ ] T-login-api.schema: Sub-task
+  - [ ] T-login-api.handler: Sub-task
+- [ ] T-session-store: Task name #rook `in_progress`
+- [x] T-auth-middleware: Task name `done`
 
 ---
 
-### F2: Another Feature
+### F-payment: Payment System
 > Description
 
-**Design**: [refs/designs/F2-another-feature.md](refs/designs/F2-another-feature.md)
+**Design**: [refs/designs/F-payment.md](refs/designs/F-payment.md)
 
-- [ ] T2.1: Task name `backlog`
+- [ ] T-checkout-flow: Task name `backlog`
 
 -->
 
 <!-- Worktree mode example:
 
-### F1: Feature Name
+### F-payment: Payment System
 > Brief description
 
-**Design**: [{sprintRoot}/refs/designs/F1-feature-name.md]({sprintRoot}/refs/designs/F1-feature-name.md)
-**Context**: [{sprintRoot}/active/F1-feature-name.md]({sprintRoot}/active/F1-feature-name.md)
-**Branch**: feature/F1-feature-name
-**Worktree**: /path/to/worktrees/F1-feature-name
+**Design**: [{sprintRoot}/refs/designs/F-payment.md]({sprintRoot}/refs/designs/F-payment.md)
+**Context**: [{sprintRoot}/active/F-payment.md]({sprintRoot}/active/F-payment.md)
+**Branch**: feature/F-payment
+**Worktree**: /path/to/worktrees/F-payment
 
-- [ ] T1.1: Task name `backlog`
-- [ ] T1.2: Task name `backlog`
-- [ ] T1.3: Review & Refactor F1 `backlog`
-- [ ] T1.4: Merge feature/F1-feature-name and clean up worktree `backlog`
+- [ ] T-checkout-flow: Task name `backlog`
+- [ ] T-webhook-handler: Task name `backlog`
+- [ ] T-review-payment: Review & Refactor `backlog`
+- [ ] T-merge-payment: Merge feature/F-payment and clean up worktree `backlog`
 
 -->
 
@@ -105,7 +109,7 @@ backlog ──────► in_progress ──────► review ───
 
 <!-- When a Feature is `done`:
 1. Remove the Feature section from above
-2. Add one-line summary here: `F1: Feature Name - completed YYYY-MM-DD`
-3. Archive active context: move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`
+2. Add one-line summary here: `F-user-auth: User Authentication - completed YYYY-MM-DD`
+3. Archive active context: move `active/F-{slug}.md` → `refs/archive/F-{slug}.md`
    (See INSTRUCTION.md "Feature Context Management" for full steps)
 -->

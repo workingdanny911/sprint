@@ -74,10 +74,19 @@ Use conversational discovery to understand what to build.
 
 Enter Plan Mode to design the work structure.
 
-**Feature number assignment:**
-1. Read BACKLOG.md to find highest existing Feature number
-2. New Feature = highest + 1 (e.g., if F3 exists, new one is F4)
-3. If no features exist, start with F1
+**Feature slug assignment:**
+1. Derive a slug from the Feature name in kebab-case (e.g., "User Authentication" → `user-auth`)
+2. Read BACKLOG.md to check for an existing Feature with the same slug
+3. If the slug already exists: **stop and ask the user for a different Feature name** — slugs must be unique within the sprint
+4. The Feature ID is `F-{feature-slug}` (e.g., `F-user-auth`)
+
+**Task slug assignment:**
+1. Derive each Task slug from the Task content in kebab-case (e.g., "Login API" → `login-api`)
+2. Task slugs are **globally unique** across the entire sprint — no two Tasks (in any Feature) may share a slug, and there is **no Feature prefix**
+3. If a slug collides with an existing Task: ask the user to confirm a distinct slug
+4. The Task ID is `T-{task-slug}` (e.g., `T-login-api`); a Sub-task is `T-{task-slug}.{sub-slug}` (e.g., `T-login-api.schema`)
+
+> No sequential numbering. Features and Tasks are identified by descriptive slugs, not `max+1` numbers.
 
 **Task sizing rule (CRITICAL):**
 > Each Task must be completable in a **single Claude Code session**.
@@ -90,16 +99,16 @@ Enter Plan Mode to design the work structure.
 **Design the structure:**
 
 ```markdown
-### F{n}: {Feature Name}
+### F-{feature-slug}: {Feature Name}
 > {Brief description}
 
-**Design**: [refs/designs/F{n}-{name}.md](refs/designs/F{n}-{name}.md)
-**Context**: [active/F{n}-{name}.md](active/F{n}-{name}.md)
+**Design**: [refs/designs/F-{feature-slug}.md](refs/designs/F-{feature-slug}.md)
+**Context**: [active/F-{feature-slug}.md](active/F-{feature-slug}.md)
 
-- [ ] T{n}.1: {Task name} `backlog`
-  - [ ] T{n}.1.1: {Sub-task if needed}
-- [ ] T{n}.2: {Task name} `backlog`
-- [ ] T{n}.3: Review & Refactor F{n} `backlog`  ← verification/refactoring
+- [ ] T-{task-slug}: {Task name} `backlog`
+  - [ ] T-{task-slug}.{sub-slug}: {Sub-task if needed}
+- [ ] T-{another-slug}: {Task name} `backlog`
+- [ ] T-review-{feature-slug}: Review & Refactor {Feature Name} `backlog`  ← verification/refactoring
 ```
 
 > **Note**: Type, Goals, and detailed design information go in the Design doc, not BACKLOG.md.
@@ -110,9 +119,11 @@ Task cycle: `ideation → plan → implement → verify/refactor → ... → don
 
 | Situation | Task to add |
 |-----------|-------------|
-| End of every Feature | `Review & Refactor F{n}` - verify, improve, clean up |
-| After complex Task (3+ sub-tasks) | `Review T{n}.Y` - intermediate check & improve |
-| Integration points | `Review integration` - verify + refactor if needed |
+| End of every Feature | `Review & Refactor {Feature Name}` (slug `T-review-{feature-slug}`) - verify, improve, clean up |
+| After complex Task (3+ sub-tasks) | `Review {task name}` (slug `T-review-{task-slug}`) - intermediate check & improve |
+| Integration points | `Review integration` (slug `T-review-integration`) - verify + refactor if needed |
+
+> R&R Tasks must keep "Review & Refactor" in the title — `/sprint:work-on-feature` identifies the final R&R Task by its title, not its slug.
 
 **What Review & Refactor includes:**
 - Verify functionality works as expected
@@ -123,11 +134,11 @@ Task cycle: `ideation → plan → implement → verify/refactor → ... → don
 
 Examples:
 ```markdown
-- [ ] T1.1: Login API `backlog`
-- [ ] T1.2: Signup API `backlog`
-- [ ] T1.3: Review T1.1-T1.2 `backlog`      ← intermediate verification
-- [ ] T1.4: Token refresh `backlog`
-- [ ] T1.5: Review & Refactor F1 `backlog`  ← end-of-Feature review/refactor
+- [ ] T-login-api: Login API `backlog`
+- [ ] T-signup-api: Signup API `backlog`
+- [ ] T-review-auth-apis: Review login/signup APIs `backlog`  ← intermediate verification
+- [ ] T-token-refresh: Token refresh `backlog`
+- [ ] T-review-user-auth: Review & Refactor User Auth `backlog`  ← end-of-Feature review/refactor
 ```
 
 **Present to user:**
@@ -151,8 +162,8 @@ When sprint is in worktree mode:
 3. **If creating new worktree**:
    - Use command from `.sprint-config` (`worktree.command`)
      - No need to ask user — already configured at init
-   - Suggest branch name: `feature/F{n}-{kebab-name}`
-   - Derive worktree path from `worktree.pathPrefix` + `F{n}-{kebab-name}`
+   - Suggest branch name: `feature/F-{feature-slug}`
+   - Derive worktree path from `worktree.pathPrefix` + `F-{feature-slug}`
 
 4. **Record in Feature**:
    - Add `Branch:` and `Worktree:` fields to Feature in BACKLOG.md
@@ -162,7 +173,7 @@ When sprint is in worktree mode:
 Every Feature in worktree mode MUST have a final merge Task:
 
 ```markdown
-- [ ] T{n}.X: Merge {branch-name} and clean up worktree `backlog`
+- [ ] T-merge-{feature-slug}: Merge {branch-name} and clean up worktree `backlog`
 ```
 
 This Task:
@@ -172,10 +183,10 @@ This Task:
 
 Task order:
 ```
-- [ ] T1.1: ... `backlog`
-- [ ] T1.2: ... `backlog`
-- [ ] T1.3: Review & Refactor F1 `backlog`           ← review/refactor
-- [ ] T1.4: Merge feature/F1-name and clean up worktree `backlog`  ← merge (last)
+- [ ] T-login-api: ... `backlog`
+- [ ] T-signup-api: ... `backlog`
+- [ ] T-review-user-auth: Review & Refactor User Auth `backlog`           ← review/refactor
+- [ ] T-merge-user-auth: Merge feature/F-user-auth and clean up worktree `backlog`  ← merge (last)
 ```
 
 #### Agent Teams Consideration
@@ -211,13 +222,13 @@ After user approval:
    - Task list only (no detailed information)
    - Maintain priority ordering (new items at bottom unless specified)
 
-2. **Create Design doc** (`refs/designs/F{n}-{name}.md`)
+2. **Create Design doc** (`refs/designs/F-{feature-slug}.md`)
    - Use FEATURE-DESIGN-TEMPLATE.md
    - Include Type (coding/docs/ideation/general)
    - Fill in Goals, Non-Goals, Design approach from brainstorming
    - Record any decisions made during brainstorming
 
-3. **Create Active context** (`active/F{n}-{name}.md`)
+3. **Create Active context** (`active/F-{feature-slug}.md`)
    - Use ACTIVE-FEATURE-TEMPLATE.md
    - Set Phase to "design" or "implementation"
    - Link to Design doc in Related Files
@@ -230,13 +241,13 @@ After user approval:
 5. **Confirm addition**
    ```
    Added to BACKLOG.md:
-   - F{n}: {Feature Name}
-     - T{n}.1: {Task}
-     - T{n}.2: {Task}
+   - F-{feature-slug}: {Feature Name}
+     - T-{task-slug}: {Task}
+     - T-{another-slug}: {Task}
 
    Created:
-   - refs/designs/F{n}-{name}.md (design doc)
-   - active/F{n}-{name}.md (working context)
+   - refs/designs/F-{feature-slug}.md (design doc)
+   - active/F-{feature-slug}.md (working context)
 
    Ready to work? Start with: @INSTRUCTION.md #your-name
    ```

@@ -12,4 +12,4 @@ Sprint-wide decision records.
 
 **Sprint file**: Only for decisions that affect multiple features or the entire sprint.
 
-**Feature decisions**: Stay in `active/F{n}-*.md` during work and are preserved when the file moves to `refs/archive/` on feature completion. No separate feature decision files needed.
+**Feature decisions**: Stay in `active/F-{slug}.md` during work and are preserved when the file moves to `refs/archive/` on feature completion. No separate feature decision files needed.

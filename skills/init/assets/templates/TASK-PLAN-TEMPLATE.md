@@ -1,4 +1,4 @@
-# F{n}/T{m}: {Task Name} Plan
+# F-{feature-slug} / {task-id}: {Task Name} Plan
 
 > Execution plan for this task. Optional for simple tasks.
 > **Self-contained**: This file must have all context needed after clear context.
@@ -10,15 +10,17 @@
 | Key | Value |
 |-----|-------|
 | Sprint | `{sprint-path}` |
-| Feature | `F{n}: {feature-name}` |
-| Task | `T{m}: {task-name}` |
+| Feature | `F-{feature-slug}: {feature-name}` |
+| Task | `T-{task-slug}: {task-name}` |
 | Plan File | `{this-file-absolute-path}` |
+
+> Plan file naming: `refs/plans/F-{feature-slug}-{task-id}.md` (e.g. `refs/plans/F-user-auth-T-login-api.md`)
 
 **Required reads after clear context:**
 1. `{sprint-path}/BACKLOG.md` - Task status, assignments
 2. `{sprint-path}/HANDOFF.md` - Current work board
-3. `{sprint-path}/refs/designs/F{n}-*.md` - Feature design (if exists)
-4. `{sprint-path}/active/F{n}-*.md` - Feature working context (if exists)
+3. `{sprint-path}/refs/designs/F-{feature-slug}.md` - Feature design (if exists)
+4. `{sprint-path}/active/F-{feature-slug}.md` - Feature working context (if exists)
 
 ---
 

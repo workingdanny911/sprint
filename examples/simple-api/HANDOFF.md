@@ -7,9 +7,9 @@
 ## Before You Start (REQUIRED)
 
 - [ ] Read `BACKLOG.md` - Find your assigned or available tasks
-- [ ] Read `refs/decisions/F{n}-*.md` - If working on Feature n (if exists)
-- [ ] Read `refs/lessons/F{n}-*.md` - If working on Feature n (if exists)
-- [ ] Check `active/F{n}-*.md` - Feature context (if exists)
+- [ ] Read `refs/decisions/F-{slug}-*.md` - If working on a Feature (if exists)
+- [ ] Read `refs/lessons/F-{slug}-*.md` - If working on a Feature (if exists)
+- [ ] Check `active/F-{slug}.md` - Feature context (if exists)
 - [ ] Check **Dependencies** below - Ensure nothing blocks your task
 
 ---
@@ -25,7 +25,7 @@ Complete or move to review before claiming another.
 
 | Feature | Task | Agent | Started | Notes |
 |---------|------|-------|---------|-------|
-| F1 | T1.3: Token Refresh API | #danny | 2024-01-28 | JWT refresh impl |
+| F-user-auth | T-token-refresh: Token Refresh API | #danny | 2024-01-28 | JWT refresh impl |
 
 ---
 
@@ -43,8 +43,8 @@ Complete or move to review before claiming another.
 
 | Feature | Task | Agent | Completed | Notes |
 |---------|------|-------|-----------|-------|
-| F1 | T1.2: Signup API | #danny | 2024-01-28 | With email validation |
-| F1 | T1.1: Login API | #danny | 2024-01-27 | JWT issuance |
+| F-user-auth | T-signup-api: Signup API | #danny | 2024-01-28 | With email validation |
+| F-user-auth | T-login-api: Login API | #danny | 2024-01-27 | JWT issuance |
 
 ---
 
@@ -54,7 +54,7 @@ Complete or move to review before claiming another.
 
 | Item | Depends On | Status | Notes |
 |------|-----------|--------|-------|
-| F2 | F1 | F1 in_progress | F2 starts after F1 auth complete |
+| F-user-profile | F-user-auth | F-user-auth in_progress | F-user-profile starts after F-user-auth complete |
 
 ---
 
@@ -72,12 +72,12 @@ Complete or move to review before claiming another.
 1. Find unclaimed task in BACKLOG.md (no #agent)
 2. Add `#yourname` to task in BACKLOG.md, change status to `in_progress`
 3. Add entry to **In Progress** table above
-4. Create `active/F{n}-name.md` if first task for that feature
+4. Create `active/F-{slug}.md` if first task for that feature
 
 ### Complete a task
 1. Move from **In Progress** to **Recently Done** (or **In Review**)
 2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`
-3. Update `active/F{n}-name.md` with completion notes
+3. Update `active/F-{slug}.md` with completion notes
 4. **END SESSION** - Do NOT claim next task automatically
 
 > One session = One task. Start new session with `@INSTRUCTION.md` for next task.

@@ -42,17 +42,17 @@ sprints/my-sprint/
 
 1. **Mark current Task as blocked**
    ```markdown
-   - [ ] T1.1: Big Task `blocked` → needs breakdown
+   - [ ] T-big-task: Big Task `blocked` → needs breakdown
    ```
 
 2. **Break down with /sprint:plan-backlog**
    ```
-   /sprint:plan-backlog T1.1
+   /sprint:plan-backlog T-big-task
 
    → Break into Sub-tasks
-   - [ ] T1.1.1: Part 1
-   - [ ] T1.1.2: Part 2
-   - [ ] T1.1.3: Part 3
+   - [ ] T-big-task.part-1: Part 1
+   - [ ] T-big-task.part-2: Part 2
+   - [ ] T-big-task.part-3: Part 3
    ```
 
 3. **Task sizing guide**
@@ -104,7 +104,7 @@ sprints/my-sprint/
 1. Read INSTRUCTION.md (guidelines)
 2. Read BACKLOG.md (find my Task)
 3. Read HANDOFF.md (current status)
-4. Read active/F{n}-*.md (work context) ← Key!
+4. Read active/F-{slug}.md (work context) ← Key!
 
 # Verify
 - Maintain same agent name
@@ -124,7 +124,7 @@ sprints/my-sprint/
 
 ```markdown
 # 1. Archive active context
-active/F1-*.md → refs/archive/F1-auth.md (move as-is)
+active/F-auth.md → refs/archive/F-auth.md (move as-is)
 
 # 2. Add Lessons Learned section to archived file
 # 3. Finalize Decisions Made section in archived file
@@ -132,8 +132,8 @@ active/F1-*.md → refs/archive/F1-auth.md (move as-is)
 
 # 5. Clean BACKLOG.md
 # Remove Feature section, add one-line to Done:
-- F1: Authentication - completed 2024-01-28
-rm active/F1-authentication.md
+- F-auth: Authentication - completed 2024-01-28
+rm active/F-auth.md
 ```
 
 ---
@@ -153,10 +153,10 @@ Plan file must include:
 ```markdown
 # Sprint Context (REQUIRED)
 - Sprint Path: sprints/my-sprint/
-- Feature: F1
-- Task: T1.2
+- Feature: F-auth
+- Task: T-signup-api
 - Files to Reference:
-  - refs/designs/F1-feature.md
+  - refs/designs/F-auth.md
   - src/services/auth.ts
 
 # Work Context
@@ -216,17 +216,28 @@ When starting without a name, the suggested persona doesn't fit the task.
 
 ### /sprint:add-backlog
 
-**Q: Feature numbers are duplicating**
+**Q: Feature or Task slug collides with an existing one**
 
-**Solution**: Check highest Feature number in BACKLOG.md, then +1
+**Symptom**: A new Feature/Task derives a slug that already exists in BACKLOG.md (e.g. two Features both want `F-payment`, or two Tasks both want `T-login-api`).
+
+**Cause**: Slugs are descriptive, not positional — they must be unique. Feature slugs are unique across the sprint; Task slugs are **globally unique across the whole sprint** (no Feature prefix).
+
+**Solution**: Pick a more specific name so the slug differs. Slugs are derived from the name, so renaming resolves the collision.
 
 ```markdown
 # Existing
-F1, F2, F3
+F-payment, F-auth, F-dashboard
 
-# New addition
-F4 (not F1, F2, F3)
+# New Feature also about payments → collides with F-payment
+# Rename to disambiguate:
+F-payment-refunds   (not F-payment)
+
+# Existing Task T-login-api already used by another Feature
+# Rename the new Task to be specific:
+T-admin-login-api   (not T-login-api)
 ```
+
+There is no number increment — never assign a slug just to avoid a number clash.
 
 ---
 
@@ -248,7 +259,7 @@ F4 (not F1, F2, F3)
 
 **Solution**:
 1. Check for `done` status Tasks in BACKLOG.md
-2. Provide exact Task ID (e.g., `T1.2`)
+2. Provide exact Task ID (e.g., `T-signup-api`)
 
 ---
 
@@ -275,16 +286,16 @@ F4 (not F1, F2, F3)
 2. **Manually clean BACKLOG.md, HANDOFF.md**
    ```markdown
    # Match actual state
-   - [x] T1.1: Done `done`
-   - [ ] T1.2: In progress #danny `in_progress`
-   - [ ] T1.3: Not started `backlog`
+   - [x] T-login-api: Done `done`
+   - [ ] T-signup-api: In progress #danny `in_progress`
+   - [ ] T-password-reset: Not started `backlog`
    ```
 
 3. **Clean In Progress table**
    ```markdown
    | Feature | Task | Persona | Started | Notes |
    |---------|------|---------|---------|-------|
-   | F1 | T1.2 | #rook | 2024-01-28 | Actually in progress |
+   | F-auth | T-signup-api | #rook | 2024-01-28 | Actually in progress |
    ```
 
 4. **Start new sessions for each agent**
@@ -299,18 +310,18 @@ F4 (not F1, F2, F3)
 
 1. **Regular archive of completed Features**
    ```
-   refs/archive/F1-*.md
-   refs/archive/F2-*.md
+   refs/archive/F-auth.md
+   refs/archive/F-user-profile.md
    ```
 
 2. **Simplify BACKLOG.md**
    ```markdown
    ## Done
-   - F1: Authentication - 2024-01-28
-   - F2: User Profile - 2024-01-29
+   - F-auth: Authentication - 2024-01-28
+   - F-user-profile: User Profile - 2024-01-29
 
    ## Features
-   ### F3: Payment (current)
+   ### F-payment: Payment (current)
    ...
    ```
 
@@ -371,10 +382,10 @@ git commit -m "Add sprint for feature X"
 **Answer**: Manually edit BACKLOG.md.
 ```markdown
 # Before (mistake)
-- [x] T1.2: Not actually done `done`
+- [x] T-signup-api: Not actually done `done`
 
 # After (fixed)
-- [ ] T1.2: Still in progress `in_progress`
+- [ ] T-signup-api: Still in progress `in_progress`
 ```
 
 ### Worktree Mode Issues
@@ -441,5 +452,5 @@ Then add sprint path to `.gitignore`.
 **Answer**: Record cross-reference in refs/decisions/_sprint.md
 ```markdown
 ## Cross-Sprint References
-- F2 (payment-sprint) depends on F1.3 (auth-sprint)
+- F-payment (payment-sprint) depends on T-token-refresh (auth-sprint)
 ```
